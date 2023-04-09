@@ -12,6 +12,12 @@
 실제 간편 결제 도메인 시스템과는 복잡성 측면에서 차이가 있지만, 간단한 버전을 기준으로 MSA 를 구성하고, 각 서비스의 기능을 구현하며, EDA 를 적용해 보는 것을 목표로 진행해요.
 아래 내용들은 수업 진행 방향 및 실습 진행 속도에 따라 유동적일 수 있어요.
 
+## Overall Architecture for Monolithic System
+![Monolithic System](md_resource/Overview2.png)
+
+## Overall Architecture for MSA
+![MSA System](md_resource/Overview1.png)
+
 ## Membership Service (Part. 2, 3, 6, 7)
 고객의 회원 가입, 회원 정보 변경, 회원 정보 조회 등의 기능을 제공하는 서비스입니다.
 - Part 2.
@@ -28,7 +34,6 @@
 
 ### Sequence Diagram Example (회원 가입, JWT 토큰 인증 프로세스) 
 
-![alt text](md_resource/Overview1.png)
 
 ## Banking Service (Part. 3)
 고객의 계좌 정보 등록, 등록된 계좌 정보 조회, 입/출금, 거래내역 조회 등의 기능을 제공하는 서비스입니다.
