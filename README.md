@@ -129,3 +129,15 @@ docker-compose up -d
 ./gradlew --stop
 ./gradlew docker
 ```
+
+## Sample Screenshots
+![Sample1](md_resource/sample_docker.png)
+
+![Sample2](md_resource/sample_swagger.png)
+
+![Sample3](md_resource/sample_kafkaui.png)
+
+![Sample4](md_resource/sample_AxonServer.png)
+
+![Sample5](md_resource/sample_mysql.png)
+
