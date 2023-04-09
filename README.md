@@ -28,7 +28,7 @@
 
 ### Sequence Diagram Example (회원 가입, JWT 토큰 인증 프로세스) 
 
-![alt text](/md_resouece/Overview1.png)
+![alt text](md_resource/Overview1.png)
 
 ## Banking Service (Part. 3)
 고객의 계좌 정보 등록, 등록된 계좌 정보 조회, 입/출금, 거래내역 조회 등의 기능을 제공하는 서비스입니다.
