@@ -33,7 +33,7 @@
   - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
 
 ### Sequence Diagram Example (회원 가입, JWT 토큰 인증 프로세스) 
-
+![Monolithic System](md_resource/Membership Sequence Example.png)
 
 ## Banking Service (Part. 3)
 고객의 계좌 정보 등록, 등록된 계좌 정보 조회, 입/출금, 거래내역 조회 등의 기능을 제공하는 서비스입니다.
@@ -43,7 +43,7 @@
   - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose
 
 ### Sequence Diagram Example (입/출금 요청 프로세스)
-
+![Monolithic System](md_resource/Banking Sequence Example.png)
 
 ## Money Service (Part. 3, 4, 5, 6)
 고객의 충전 잔액(머니) CRUD, 충전 내역 조회 등의 기능을 제공하는 서비스입니다.
@@ -63,6 +63,7 @@
 - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, Kafka, Kafka-ui, Zookeeper, AWS DynamoDB
 
 ### Sequence Diagram Example (충전 잔액(머니) 충전 프로세스)
+![Monolithic System](md_resource/Money Sequence Example.png)
 
 ## Remittance Service (Part. 4, 5, 6)
 고객 간 송금 기능 및 송금 내역 정보 조회 등의 기능을 제공하는 서비스입니다.
@@ -75,7 +76,7 @@
 #### Using Stack
 - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
 ### Sequence Diagram (송금 프로세스)
-
+![Monolithic System](md_resource/Remittance Sequence Example.png)
 
 ## Payment Service (Part. 5, WIP..)
 가맹점에서 Fastcampus Pay 를 이용한 간편 결제 및 결제 내역 조회 등의 기능을 제공하는 서비스입니다. 
