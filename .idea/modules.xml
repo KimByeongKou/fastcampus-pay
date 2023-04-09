@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/banking-service/fastcampus-pay.banking-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/banking-service/fastcampus-pay.banking-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" />
+    </modules>
+  </component>
+</project>
