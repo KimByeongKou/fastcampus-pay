@@ -1,0 +1,51 @@
+buildscript {
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE"
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'java'
+}
+
+subprojects {
+    compileJava {
+        sourceCompatibility = 11
+        targetCompatibility = 11
+    }
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+        implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+        testImplementation 'com.tngtech.archunit:archunit:1.0.1'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+    test {
+        useJUnitPlatform()
+        maxHeapSize = "1024m" //원하는 만큼 변경
+    }
+}
+
+bootRun {
+    enabled = false
+}
+
+bootJar {
+    enabled = false
+}
+
+bootBuildImage{
+    enabled = false
+}
