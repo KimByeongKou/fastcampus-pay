@@ -6,6 +6,9 @@ import com.fastcampuspay.membership.application.port.out.RegisterMembershipPort;
 import com.fastcampuspay.common.UseCase;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.modelling.command.CommandHandlerInterceptor;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +18,7 @@ import javax.transaction.Transactional;
 public class RegisterMembership implements RegisterMembershipUseCase {
 
 	private final RegisterMembershipPort rport;
+	private final CommandGateway commandGateway;
 
 	@Override
 	public void registerMembership(RegisterMembershipCommand command) {
@@ -24,6 +28,22 @@ public class RegisterMembership implements RegisterMembershipUseCase {
 				new Membership.MembershipAddress(command.getAddress()),
 				new Membership.MembershipIsValid(command.isValid())
 				);
+	}
+	@Override
+	public void registerAxonMembership(RegisterMembershipCommand command) {
+		commandGateway.send(command)
+				.whenComplete((Object result, Throwable throwable) -> {
+					if (throwable == null) {
+						System.out.println(result.toString());
+					}
+					System.out.println("error : " + throwable.getMessage());
+				});
+	}
+
+	@CommandHandlerInterceptor
+	public void on(RegisterMembershipCommand event) {
+		System.out.println("RegisterMembershipCommand  Handler");
+		this.registerMembership(new RegisterMembershipCommand(event.getName(), event.getEmail(), event.getAddress(), true));
 	}
 }
 

@@ -5,6 +5,7 @@ import com.fastcampuspay.membership.application.port.in.GetMembershipCommand;
 import com.fastcampuspay.membership.application.port.in.GetMembershipUseCase;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ class GetMembershipController {
 
 	private final GetMembershipUseCase getMembershipUseCase;
 
+
+
 	@GetMapping(path = "/membership/{membershipId}")
 	ResponseEntity<Membership> getMembership(@PathVariable String membershipId){
 		// getMembership
@@ -23,4 +26,16 @@ class GetMembershipController {
 				.build();
 		return ResponseEntity.ok(getMembershipUseCase.getMembership(command));
 	}
+
+	@GetMapping(path = "/membership/axon/{membershipId}")
+	ResponseEntity<Membership> getAxonMembership(@PathVariable String membershipId){
+		// getMembership
+		GetMembershipCommand command = GetMembershipCommand.builder()
+				.membershipId(membershipId)
+				.build();
+
+		return ResponseEntity.ok(getMembershipUseCase.getAxonMembership(command));
+	}
+
+
 }
