@@ -8,12 +8,11 @@ import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 
-@Value
+
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public
 class GetMembershipCommand extends SelfValidating<GetMembershipCommand> {
-    @NotNull
     private final String membershipId;
 
 }

@@ -7,7 +7,6 @@ import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
 import com.fastcampuspay.membership.application.port.out.query.GetMembershipQuery;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 
