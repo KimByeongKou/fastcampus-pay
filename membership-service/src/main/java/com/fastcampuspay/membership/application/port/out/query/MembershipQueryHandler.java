@@ -1,6 +1,6 @@
 package com.fastcampuspay.membership.application.port.out.query;
 
-import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
+import com.fastcampuspay.membership.application.port.out.FindMembershipPort;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MembershipQueryHandler{
 
-    private final GetMembershipPort gport;
+    private final FindMembershipPort fport;
 
     @QueryHandler
-    public Membership handle(GetMembershipQuery query) {
+    public Membership handle(FindMembershipQuery query) {
         System.out.println("MembershipQueryHandler Handler");
 
         // Retrieve the event sourcing repository
@@ -21,7 +21,7 @@ public class MembershipQueryHandler{
 //        MembershipAggregate user = repository.load(query.getMembershipId()).getWrappedAggregate().getAggregateRoot();
 
 //        System.out.println(user.toString());
-        return gport.getMembership(new Membership.MembershipId(query.getMembershipId()));
+        return fport.findMembership(new Membership.MembershipId(query.getMembershipId()));
 
 //        return Membership.generateMember(
 //                new Membership.MembershipId(user.getId()+""),

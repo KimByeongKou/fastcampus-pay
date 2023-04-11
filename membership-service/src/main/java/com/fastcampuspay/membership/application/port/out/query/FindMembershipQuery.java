@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class GetMembershipQuery {
+public class FindMembershipQuery {
     String membershipId;
 }

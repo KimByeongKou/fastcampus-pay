@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetMembershipRequest {
+public class FindMembershipRequest {
     private String membershipId;
 }

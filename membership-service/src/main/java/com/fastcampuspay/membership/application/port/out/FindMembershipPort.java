@@ -2,9 +2,9 @@ package com.fastcampuspay.membership.application.port.out;
 
 import com.fastcampuspay.membership.domain.Membership;
 
-public interface GetMembershipPort {
+public interface FindMembershipPort {
 
-	Membership getMembership(
+	Membership findMembership(
 			Membership.MembershipId membershipId
 	);
 }

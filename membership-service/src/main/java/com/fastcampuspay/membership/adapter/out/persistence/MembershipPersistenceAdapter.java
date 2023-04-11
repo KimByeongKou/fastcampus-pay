@@ -1,7 +1,7 @@
 package com.fastcampuspay.membership.adapter.out.persistence;
 
 import com.fastcampuspay.common.PersistenceAdapter;
-import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
+import com.fastcampuspay.membership.application.port.out.FindMembershipPort;
 import com.fastcampuspay.membership.application.port.out.RegisterMembershipPort;
 import com.fastcampuspay.membership.application.port.out.UpdateMembershipPort;
 import com.fastcampuspay.membership.domain.Membership;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @PersistenceAdapter
-class MembershipPersistenceAdapter implements RegisterMembershipPort, GetMembershipPort, UpdateMembershipPort {
+class MembershipPersistenceAdapter implements RegisterMembershipPort, FindMembershipPort, UpdateMembershipPort {
 
 	private final SpringDataMembershipRepository membershipRepository;
 	 private final MembershipMapper membershipMapper;
@@ -33,7 +33,7 @@ class MembershipPersistenceAdapter implements RegisterMembershipPort, GetMembers
 	}
 
 	@Override
-	public Membership getMembership(Membership.MembershipId membershipId) {
+	public Membership findMembership(Membership.MembershipId membershipId) {
 		return membershipMapper.mapToDomainEntity(
 				membershipRepository.getById(Long.parseLong(membershipId.getMembershipId()))
 		);

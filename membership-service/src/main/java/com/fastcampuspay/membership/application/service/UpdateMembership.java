@@ -4,7 +4,7 @@ import com.fastcampuspay.common.UseCase;
 import com.fastcampuspay.membership.application.port.in.UpdateMembershipCommand;
 import com.fastcampuspay.membership.application.port.in.UpdateMembershipEventCommand;
 import com.fastcampuspay.membership.application.port.in.UpdateMembershipUseCase;
-import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
+import com.fastcampuspay.membership.application.port.out.FindMembershipPort;
 import com.fastcampuspay.membership.application.port.out.UpdateMembershipPort;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 public class UpdateMembership implements UpdateMembershipUseCase {
 
 	private final UpdateMembershipPort uport;
-	private final GetMembershipPort gport;
+	private final FindMembershipPort fport;
 	private final CommandGateway commandGateway;
 	@Override
 	public Membership updateMembership(UpdateMembershipCommand command) {
@@ -34,7 +34,7 @@ public class UpdateMembership implements UpdateMembershipUseCase {
 	@Override
 	public Membership updateAxonMembership(UpdateMembershipCommand command) {
 		System.out.println("update axon membership");
-		Membership membership = gport.getMembership(new Membership.MembershipId(command.getMembershipId()));
+		Membership membership = fport.findMembership(new Membership.MembershipId(command.getMembershipId()));
 		UpdateMembershipEventCommand eventCommand = UpdateMembershipEventCommand.builder()
 				.aggregateIdentifier(membership.getAggregateIdentifier())
 				.name(command.getName())
