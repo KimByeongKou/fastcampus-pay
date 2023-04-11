@@ -29,6 +29,14 @@
   - 고객 정보가 변경될 경우, 이벤트를 발행하고, 이를 구독하는 Money 서비스 에서 고객의 머니 정보를 변경하는 CQRS 패턴 구현 (with/ AWS DynamoDB)
 - Part 7.
   -  보안을 위해 JWT 를 이용한 간단한 API 인증 구현
+
+### API Lists
+- registerMembership
+- updateMembershipByMemberId (CQRS Trigger)
+- findMembershipByMemberId
+- loginByMembershipIdPw
+- authByToken
+
 #### Using Stack
   - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
 
@@ -39,6 +47,14 @@
 고객의 계좌 정보 등록, 등록된 계좌 정보 조회, 입/출금, 거래내역 조회 등의 기능을 제공하는 서비스입니다.
 - Part 3.
   - Hexagonal Architecture 를 활용하여 기본적인 Banking Service 를 구현 (가상의 법인 계좌 및 고객 계좌 정보 등록, 은행으로 입/출금 요청하기)
+  
+### API Lists
+- registerBankAccount
+- requestTransferMoneyToBank
+- findRegisteredBankAccountByMemberId
+- findTransferMoneyInfoByMemberId
+- findTransferMoneyInfoByBankingId
+
 #### Using Stack
   - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose
 
@@ -59,6 +75,17 @@
   - Axon Framework 를 이용하여 Event Driven Architecture 로 리팩토링.
   - Membership 서비스로부터 고객 정보 변경 이벤트를 수신하고, 이를 기반으로 CQRS 패턴을 구현 (with/ AWS DynamoDB)
     - "지역별 고객들의 잔액 총합 View" 을 얻어오려면?
+    
+### API Lists
+- rechargeMoneyByMemberId
+- findMoneyInfoByRechargeMoneyId
+- findMoneyHistoryByMemberId
+- transferMoneyBetweenMembers
+
+### LocalMoney Service (for CQRS)
+- calculateMoneySumByLocal 
+- MembershipUpdate (EventHandler)
+
 #### Using Stack
 - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, Kafka, Kafka-ui, Zookeeper, AWS DynamoDB
 
@@ -73,23 +100,42 @@
   - 고객 간 송금하는 기능은 기능은 Axon Framework 를 이용하여 Saga Pattern 적용 및 리팩토링
 - Part 6.
   - 특정 송금 건을 기준으로, 머니의 충전 내역을 조회해보는 기능 구현을 위해 API Aggregation Pattern 적용
+
+### API Lists
+- requestRemittance
+- findRemittanceInfoByRemittanceId
+- findRemittanceInfoByMemberId
+- findMoneyTransferringByRemittanceId (API Aggregation, Banking + Money)
+
 #### Using Stack
 - Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
-### Sequence Diagram (송금 프로세스)
+
+### Sequence Diagram Example (송금 프로세스)
 ![Remittance_Sequence_Example](md_resource/Remittance_Sequence_Example.png)
 
-## Payment Service (Part. 5, WIP..)
+## Payment Service (Part. 5)
 가맹점에서 Fastcampus Pay 를 이용한 간편 결제 및 결제 내역 조회 등의 기능을 제공하는 서비스입니다. 
 
-### Sequence Diagram (결제 프로세스)
+### API Lists
+- requestPaymentAtMerchant
+- findPaymentByPaymentId
+- listPaymentsByPeriod
 
+#### Using Stack
+- Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
 
-## Settlement Service (Part. 6, WIP..)
+### Sequence Diagram Example (결제 프로세스)
+![Payment_Sequence_Example](md_resource/Payment_Sequence_Example.png)
+
+## Settlement Service (Part. 6)
 완료된 결제 내역을 기준으로 가맹점에 정산된 금액을 입금하고, 수수료 수취를 위한 기능을 제공하는 서비스입니다.
 WIP..
 
-### Sequence Diagram
+### API Lists
+- startSettlementByPeriod 
 
+### Sequence Diagram Example (정산 프로세스)
+![Settlement_Sequence_Example](md_resource/Settlement_Sequence_Example.png)
 
 
 ## Execution
@@ -111,6 +157,13 @@ docker-compose up -d
 - Remittance Service
   - http://localhost:8084/remittance/
   - http://localhost:8084/swagger-ui.html
+- Payment Service
+  - http://localhost:8085/payment/
+  - http://localhost:8085/swagger-ui.html
+- Settlement Service
+  - http://localhost:8086/settlement/
+  - http://localhost:8086/swagger-ui.html
+  
 - Mysql
   - http://localhost:3306
   - root password: rootpassword
@@ -120,6 +173,7 @@ docker-compose up -d
   - http://localhost:8989
 - Axon Server Dashboard
   - http://localhost:8024
+
 
 
 
@@ -140,4 +194,6 @@ docker-compose up -d
 ![Sample4](md_resource/sample_AxonServer.png)
 
 ![Sample5](md_resource/sample_mysql.png)
+
+
 
