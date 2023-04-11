@@ -13,7 +13,8 @@ class MembershipMapper {
 				new Membership.MembershipName(membership.getName()),
 				new Membership.MembershipEmail(membership.getEmail()),
 				new Membership.MembershipAddress(membership.getAddress()),
-				new Membership.MembershipIsValid(membership.isValid())
+				new Membership.MembershipIsValid(membership.isValid()),
+				new Membership.MembershipAggregateIdentifier(membership.getAggregateIdentifier())
 				);
 	}
 }

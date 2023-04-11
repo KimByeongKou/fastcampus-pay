@@ -1,9 +1,9 @@
 package com.fastcampuspay.membership.adapter.out.persistence;
 
-import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
-import com.fastcampuspay.membership.application.port.out.UpdateMembershipPort;
-import com.fastcampuspay.membership.application.port.out.RegisterMembershipPort;
 import com.fastcampuspay.common.PersistenceAdapter;
+import com.fastcampuspay.membership.application.port.out.GetMembershipPort;
+import com.fastcampuspay.membership.application.port.out.RegisterMembershipPort;
+import com.fastcampuspay.membership.application.port.out.UpdateMembershipPort;
 import com.fastcampuspay.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 
@@ -14,23 +14,20 @@ class MembershipPersistenceAdapter implements RegisterMembershipPort, GetMembers
 	private final SpringDataMembershipRepository membershipRepository;
 	 private final MembershipMapper membershipMapper;
 
-	private Long orZero(Long value){
-		return value == null ? 0L : value;
-	}
-
-
 	@Override
 	public void createMembership(Membership.MembershipName membershipName
 			, Membership.MembershipEmail membershipEmail
 			, Membership.MembershipAddress membershipAddress
 			, Membership.MembershipIsValid membershipIsValid
+			, Membership.MembershipAggregateIdentifier membershipAggregateIdentifier
 	) {
 		membershipRepository.save(
 				new MembershipJpaEntity(
 						membershipName.getNameValue(),
 						membershipEmail.getEmailValue(),
 						membershipAddress.getAddressValue(),
-						membershipIsValid.isValidValue()
+						membershipIsValid.isValidValue(),
+						membershipAggregateIdentifier.getAggregateIdentifier()
 				)
 		);
 	}

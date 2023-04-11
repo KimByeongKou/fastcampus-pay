@@ -1,6 +1,9 @@
 package com.fastcampuspay.membership.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Value;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Membership {
@@ -13,15 +16,18 @@ public class Membership {
 	@Getter private final String email;
 	@Getter private final String address;
 	@Getter private final boolean isValid;
+	@Getter private final String aggregateIdentifier;
 
 	public static Membership generateMember(
-			MembershipId membershipId, MembershipName membershipName, MembershipEmail membershipEmail, MembershipAddress membershipAddress, MembershipIsValid membershipIsValid) {
+			MembershipId membershipId, MembershipName membershipName, MembershipEmail membershipEmail, MembershipAddress membershipAddress, MembershipIsValid membershipIsValid,
+			MembershipAggregateIdentifier membershipAggregateIdentifier) {
 		return new Membership(
 				membershipId.membershipId,
 				membershipName.nameValue,
 				membershipEmail.emailValue,
 				membershipAddress.addressValue,
-				membershipIsValid.isValidValue
+				membershipIsValid.isValidValue,
+				membershipAggregateIdentifier.aggregateIdentifier
 		);
 	}
 
@@ -63,5 +69,13 @@ public class Membership {
 			this.isValidValue = value;
 		}
 		boolean isValidValue;
+	}
+
+	@Value
+	public static class MembershipAggregateIdentifier {
+		public MembershipAggregateIdentifier(String value) {
+			this.aggregateIdentifier = value;
+		}
+		String aggregateIdentifier;
 	}
 }

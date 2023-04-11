@@ -1,13 +1,13 @@
 package com.fastcampuspay.membership.adapter.out.persistence;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "membership")
@@ -28,11 +28,14 @@ class MembershipJpaEntity {
 
 	private boolean isValid;
 
-	public MembershipJpaEntity(String name, String address, String email, boolean isValid) {
+	private String aggregateIdentifier;
+
+	public MembershipJpaEntity(String name, String address, String email, boolean isValid, String aggregateIdentifier) {
 		this.name = name;
 		this.address = address;
 		this.email = email;
 		this.isValid = isValid;
+		this.aggregateIdentifier = aggregateIdentifier;
 	}
 
 	@Override
@@ -43,6 +46,7 @@ class MembershipJpaEntity {
 				", address='" + address + '\'' +
 				", email='" + email + '\'' +
 				", isValid=" + isValid +
+				", aggregateIdentifier='" + aggregateIdentifier + '\'' +
 				'}';
 	}
 }

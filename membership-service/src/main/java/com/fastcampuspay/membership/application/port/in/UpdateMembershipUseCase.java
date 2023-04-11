@@ -5,4 +5,5 @@ import com.fastcampuspay.membership.domain.Membership;
 public interface UpdateMembershipUseCase {
 
 	Membership updateMembership(UpdateMembershipCommand command);
+	Membership updateAxonMembership(UpdateMembershipCommand command);
 }
