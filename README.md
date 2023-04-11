@@ -158,15 +158,18 @@ docker-compose up -d
 - Money Service
   - http://localhost:8083/money/
   - http://localhost:8083/swagger-ui.html
-- Remittance Service
-  - http://localhost:8084/remittance/
+- Money Local Service (CQRS View Service)
+  - http://localhost:8084/money-local/
   - http://localhost:8084/swagger-ui.html
-- Payment Service
-  - http://localhost:8085/payment/
+- Remittance Service
+  - http://localhost:8085/remittance/
   - http://localhost:8085/swagger-ui.html
-- Settlement Service
-  - http://localhost:8086/settlement/
+- Payment Service
+  - http://localhost:8086/payment/
   - http://localhost:8086/swagger-ui.html
+- Settlement Service
+  - http://localhost:8087/settlement/
+  - http://localhost:8087/swagger-ui.html
   
 - Mysql
   - http://localhost:3306
