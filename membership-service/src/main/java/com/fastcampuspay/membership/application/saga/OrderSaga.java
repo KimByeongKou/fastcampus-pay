@@ -37,8 +37,6 @@ public class OrderSaga {
         this.commandGateway = commandGateway;
     }
 
-    // @StartSaga
-    // @SagaEventHandler(associationProperty = "orderId")
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderPlacedEvent event) {

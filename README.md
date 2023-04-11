@@ -115,6 +115,9 @@
 
 ## Payment Service (Part. 5)
 가맹점에서 Fastcampus Pay 를 이용한 간편 결제 및 결제 내역 조회 등의 기능을 제공하는 서비스입니다. 
+- Part 5.
+  - Hexagonal Architecture 를 활용하여 Membership 서비스, Money 서비스를 이용하는 가맹점에서의 결제 기능 구현
+  - Membership Service 의 가맹점주 기능 확장 
 
 ### API Lists
 - requestPaymentAtMerchant
@@ -129,14 +132,15 @@
 
 ## Settlement Service (Part. 6)
 완료된 결제 내역을 기준으로 가맹점에 정산된 금액을 입금하고, 수수료 수취를 위한 기능을 제공하는 서비스입니다.
-WIP..
+- Part 6.
+  - Hexagonal Architecture 를 활용하여 Payment 서비스를 이용하는 기간별 정산 기능 구현.
+  - 수수료 수취 기능 구현, 가맹점주 계좌로 입금 기능 구현.
 
 ### API Lists
 - startSettlementByPeriod 
 
 ### Sequence Diagram Example (정산 프로세스)
 ![Settlement_Sequence_Example](md_resource/Settlement_Sequence_Example.png)
-
 
 ## Execution
 ```

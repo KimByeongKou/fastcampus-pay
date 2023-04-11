@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 class GetMembershipController {
 
 	private final GetMembershipUseCase getMembershipUseCase;
-
-
-
+	
 	@GetMapping(path = "/membership/{membershipId}")
 	ResponseEntity<Membership> getMembership(@PathVariable String membershipId){
-		// getMembership
+
 		GetMembershipCommand command = GetMembershipCommand.builder()
 				.membershipId(membershipId)
 				.build();
@@ -30,7 +28,7 @@ class GetMembershipController {
 
 	@GetMapping(path = "/membership/axon/{membershipId}")
 	ResponseEntity<Membership> getAxonMembership(@PathVariable String membershipId){
-		// getMembership
+
 		GetMembershipCommand command = GetMembershipCommand.builder()
 				.membershipId(membershipId)
 				.build();
