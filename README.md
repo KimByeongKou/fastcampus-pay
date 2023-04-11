@@ -49,9 +49,9 @@
   - Hexagonal Architecture 를 활용하여 기본적인 Banking Service 를 구현 (가상의 법인 계좌 및 고객 계좌 정보 등록, 은행으로 입/출금 요청하기)
   
 ### API Lists
-- registerBankAccount
+- registerBankingAccount
 - requestTransferMoneyToBank
-- findRegisteredBankAccountByMemberId
+- findRegisteredBankingAccountByMemberId
 - findTransferMoneyInfoByMemberId
 - findTransferMoneyInfoByBankingId
 
@@ -82,7 +82,7 @@
 - findMoneyHistoryByMemberId
 - transferMoneyBetweenMembers
 
-### LocalMoney Service (for CQRS)
+### MoneyLocal Service (for CQRS)
 - calculateMoneySumByLocal 
 - MembershipUpdate (EventHandler)
 
@@ -104,7 +104,7 @@
 ### API Lists
 - requestRemittance
 - findRemittanceInfoByRemittanceId
-- findRemittanceInfoByMemberId
+- findRemittanceHistoryByMemberId
 - findMoneyTransferringByRemittanceId (API Aggregation, Banking + Money)
 
 #### Using Stack

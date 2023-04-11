@@ -9,13 +9,8 @@ import lombok.RequiredArgsConstructor;
 @PersistenceAdapter
 class RechargeMoneyPersistenceAdapter implements RechargeMoneyPort {
 
-	private final SpringDataRechargeMoneyRepository rechargeMoneyRepository;
-	 private final RechargeMoneyMapper rechargeMoneyMapper;
-
-	private Long orZero(Long value){
-		return value == null ? 0L : value;
-	}
-
+//	private final SpringDataRechargeMoneyRepository rechargeMoneyRepository;
+//	private final RechargeMoneyMapper rechargeMoneyMapper;
 
 	@Override
 	public void rechargeMoney(MemberMoney.MemberMoneyId memberMoneyId) {

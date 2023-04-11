@@ -15,7 +15,7 @@ class RequestRemittanceMoneyController {
 	// private final RechargeMoneyUseCase registerBankingAccountUseCase;
 
 	@PostMapping(path = "/remittance/request/")
-	ResponseEntity<Object> requestRemittanceMoneyController(){
+	ResponseEntity<Object> requestRemittance(){
 		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
 	}
 

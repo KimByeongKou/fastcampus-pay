@@ -17,7 +17,7 @@ class UpdateMembershipController {
 
 	private final UpdateMembershipUseCase updateMembershipUseCase;
 	@PutMapping(path = "/membership/update")
-	ResponseEntity<Membership> updateMembership(@RequestBody UpdateMembershipRequest membershipToBeUpdated){
+	ResponseEntity<Membership> updateMembershipByMemberId(@RequestBody UpdateMembershipRequest membershipToBeUpdated){
 		// updateMembership
 		UpdateMembershipCommand command = UpdateMembershipCommand.builder()
 				.membershipId(membershipToBeUpdated.getMembershipId())
@@ -30,7 +30,7 @@ class UpdateMembershipController {
 	}
 
 	@PutMapping(path = "/membership/axon-update")
-	ResponseEntity<Membership> updateAxonMembership(@RequestBody UpdateMembershipRequest membershipToBeUpdated){
+	ResponseEntity<Membership> updateAxonMembershipByMemberId(@RequestBody UpdateMembershipRequest membershipToBeUpdated){
 		System.out.println("axon update controller");
 		// updateMembership
 		UpdateMembershipCommand command = UpdateMembershipCommand.builder()

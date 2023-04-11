@@ -28,7 +28,7 @@ class RegisterMembershipController {
 
 
 	@PostMapping(path = "/membership/axon-register/")
-	void getAxonMembership(@RequestBody RegisterMembershipRequest request){
+	void registerAxonMembership(@RequestBody RegisterMembershipRequest request){
 		RegisterMembershipCommand command = RegisterMembershipCommand.builder()
 				.name(request.getName())
 				.address(request.getAddress())

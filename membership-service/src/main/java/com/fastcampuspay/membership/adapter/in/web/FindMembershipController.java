@@ -18,7 +18,7 @@ class FindMembershipController {
 	private final FindMembershipUseCase findMembershipUseCase;
 
 	@GetMapping(path = "/membership/{membershipId}")
-	ResponseEntity<Membership> findMembership(@PathVariable String membershipId){
+	ResponseEntity<Membership> findMembershipByMemberId(@PathVariable String membershipId){
 
 		FindMembershipCommand command = FindMembershipCommand.builder()
 				.membershipId(membershipId)
@@ -27,7 +27,7 @@ class FindMembershipController {
 	}
 
 	@GetMapping(path = "/membership/axon/{membershipId}")
-	ResponseEntity<Membership> findAxonMembership(@PathVariable String membershipId){
+	ResponseEntity<Membership> findAxonMembershipByMemberId(@PathVariable String membershipId){
 
 		FindMembershipCommand command = FindMembershipCommand.builder()
 				.membershipId(membershipId)

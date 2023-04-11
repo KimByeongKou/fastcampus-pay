@@ -16,7 +16,7 @@ class RequestTransferMoneyController {
 	// private final RegisterBankingAccountUseCase registerBankingAccountUseCase;
 
 	@PostMapping(path = "/banking/transfer-money")
-	ResponseEntity<BankingAccountRegisterInfo> requestTransferMoney(){
+	ResponseEntity<BankingAccountRegisterInfo> requestTransferMoneyToBank(){
 		// RegisterMembershipRequest
 		// name, address, email
 

@@ -15,7 +15,7 @@ class RequestTransferMoneyController {
 	// private final RegisterBankingAccountUseCase registerBankingAccountUseCase;
 
 	@PostMapping(path = "/money/transfer")
-	ResponseEntity<Object> requestTransferMoney(){
+	ResponseEntity<Object> requestTransferMoneyBetweenMembers(){
 		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
 	}
 
