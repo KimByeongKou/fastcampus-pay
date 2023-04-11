@@ -30,7 +30,7 @@ class FindRemittanceController {
 	}
 
 	// (API Aggregation, Banking + Money)
-	@GetMapping(path = "/remittance/history")
+	@GetMapping(path = "/remittance/transferred-money")
 	ResponseEntity<Object>  findMoneyTransferringByRemittanceId(){
 
 

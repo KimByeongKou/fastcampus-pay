@@ -9,7 +9,7 @@ class LocalMoneyMapper {
 			LocalMoneyJpaEntity rechargeMoneyJpaEntity) {
 		System.out.println(rechargeMoneyJpaEntity.toString());
 		return MemberMoney.generateMemberMoney(
-				new MemberMoney.MemberMoneyId(rechargeMoneyJpaEntity.getRechargeMoneyId()+"")
+				new MemberMoney.MemberMoneyId(rechargeMoneyJpaEntity.getLocalMoneyId()+"")
 				);
 	}
 }

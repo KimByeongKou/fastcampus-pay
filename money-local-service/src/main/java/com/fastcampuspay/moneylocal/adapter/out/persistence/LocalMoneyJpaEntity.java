@@ -18,7 +18,7 @@ class LocalMoneyJpaEntity {
 
 	@Id
 	@GeneratedValue
-	private Long rechargeMoneyId;
+	private Long localMoneyId;
 
 //	private String name;
 //
