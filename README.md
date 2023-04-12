@@ -1,6 +1,8 @@
 
 
 # FastCampus-Pay Project Overview
+![Overall Architecture](md_resource/Overall_Architecture_Image.png)
+
 일반적인 간편결제 도메인을 주제로, MSA 를 중점적으로 학습하기 위한 교육용 프로젝트입니다.
 
 회원(Membership), 뱅킹(Banking), 머니(Money), 송금(Remittance), 결제(Payment), 정산(Settlement) 6개의 서비스로 구성되어 있으며, 각각의 독립적인 프로젝트로 구성되어 있어요.   
@@ -125,7 +127,7 @@
 - listPaymentsByPeriod
 
 #### Using Stack
-- Spring Boot, Java 11, Spring Data JPA, H2, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose, AWS DynamoDB
+- Spring Boot, Java 11, Spring Data JPA,  Mysql, Lombok, Gradle, Axon Framework, Docker, Docker Compose
 
 ### Sequence Diagram Example (결제 프로세스)
 ![Payment_Sequence_Example](md_resource/Payment_Sequence_Example.png)
@@ -139,6 +141,9 @@
 ### API Lists
 - startSettlementByPeriod 
 
+#### Using Stack
+- Spring Boot, Java 11, Spring Data JPA, Mysql, Lombok, Gradle, JWT, Axon Framework, Docker, Docker Compose
+ 
 ### Sequence Diagram Example (정산 프로세스)
 ![Settlement_Sequence_Example](md_resource/Settlement_Sequence_Example.png)
 
