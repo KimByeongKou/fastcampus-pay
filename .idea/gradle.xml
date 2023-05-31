@@ -4,20 +4,15 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/banking-service" />
-            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/membership-service" />
-            <option value="$PROJECT_DIR$/money-local-service" />
-            <option value="$PROJECT_DIR$/money-service" />
-            <option value="$PROJECT_DIR$/payment-service" />
-            <option value="$PROJECT_DIR$/remittance-service" />
-            <option value="$PROJECT_DIR$/settlement-service" />
           </set>
         </option>
       </GradleProjectSettings>

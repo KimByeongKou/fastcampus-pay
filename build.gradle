@@ -32,10 +32,6 @@ subprojects {
         testImplementation 'com.tngtech.archunit:archunit:1.0.1'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
-    test {
-        useJUnitPlatform()
-        maxHeapSize = "1024m" //원하는 만큼 변경
-    }
 }
 
 bootRun {

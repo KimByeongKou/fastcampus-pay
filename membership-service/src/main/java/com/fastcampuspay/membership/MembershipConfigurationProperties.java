@@ -7,6 +7,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "membership")
 public class MembershipConfigurationProperties {
 
-  private long transferThreshold = Long.MAX_VALUE;
 
 }
