@@ -14,39 +14,39 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class MembershipJpaEntity {
+public class MembershipJpaEntity {
 
-	@Id
-	@GeneratedValue
-	private Long membershipId;
+    @Id
+    @GeneratedValue
+    private Long membershipId;
 
-	private String name;
+    private String name;
 
-	private String address;
+    private String address;
 
-	private String email;
+    private String email;
 
-	private boolean isValid;
+    private boolean isValid;
 
-	private String aggregateIdentifier;
+    private boolean isCorp;
 
-	public MembershipJpaEntity(String name, String address, String email, boolean isValid, String aggregateIdentifier) {
-		this.name = name;
-		this.address = address;
-		this.email = email;
-		this.isValid = isValid;
-		this.aggregateIdentifier = aggregateIdentifier;
-	}
+    public MembershipJpaEntity(String name, String address, String email, boolean isValid, boolean isCorp) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.isValid = isValid;
+        this.isCorp = isCorp;
+    }
 
-	@Override
-	public String toString() {
-		return "MembershipJpaEntity{" +
-				"membershipId=" + membershipId +
-				", name='" + name + '\'' +
-				", address='" + address + '\'' +
-				", email='" + email + '\'' +
-				", isValid=" + isValid +
-				", aggregateIdentifier='" + aggregateIdentifier + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "MembershipJpaEntity{" +
+                "membershipId=" + membershipId +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", isValid=" + isValid +
+                ", isCorp=" + isCorp +
+                '}';
+    }
 }

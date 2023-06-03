@@ -2,26 +2,31 @@ package com.fastcampuspay.membership.adapter.in.web;
 
 import com.fastcampuspay.membership.application.port.in.RegisterMembershipCommand;
 import com.fastcampuspay.membership.application.port.in.RegisterMembershipUseCase;
+import com.fastcampuspay.membership.domain.Membership;
 import common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @WebAdapter
 @RestController
 @RequiredArgsConstructor
-class RegisterMembershipController {
+public class RegisterMembershipController {
 
-	private final RegisterMembershipUseCase registerMembershipUseCase;
+    private final RegisterMembershipUseCase registerMembershipUseCase;
+    @PostMapping(path = "/membership/register")
+    Membership registerMembership(@RequestBody RegisterMembershipRequest request) {
 
-	@PostMapping(path = "/v1/membership/register/")
-	void registerMembership(@RequestBody RegisterMembershipRequest request){
-		RegisterMembershipCommand command = RegisterMembershipCommand.builder()
-				.name(request.getName())
-				.address(request.getAddress())
-				.email(request.getEmail())
-				.build();
-		registerMembershipUseCase.registerMembership(command);
-	}
+        RegisterMembershipCommand command = RegisterMembershipCommand.builder()
+                .name(request.getName())
+                .address(request.getAddress())
+                .email(request.getEmail())
+                .isValid(true)
+                .isCorp(request.isCorp())
+                .build();
+
+        return registerMembershipUseCase.registerMembership(command);
+    }
 }

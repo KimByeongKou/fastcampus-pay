@@ -1,7 +1,5 @@
 package com.fastcampuspay.membership.application.port.in;
 
-
-
 import common.SelfValidating;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = false)
-public
-class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand> {
+public class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand> {
 
     @NotNull
     private final String name;
@@ -27,16 +24,18 @@ class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand
     @NotBlank
     private final String address;
 
-    @NotNull
     @AssertTrue
     private final boolean isValid;
 
-    public RegisterMembershipCommand(String name, String email, String address, boolean isValid) {
+    private final boolean isCorp;
+
+    public RegisterMembershipCommand(String name, String email, String address, boolean isValid, boolean isCorp) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.isValid = isValid;
+        this.isCorp = isCorp;
 
-        // this.validateSelf();
+        this.validateSelf();
     }
 }

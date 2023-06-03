@@ -4,17 +4,15 @@ import com.fastcampuspay.membership.domain.Membership;
 import org.springframework.stereotype.Component;
 
 @Component
-class MembershipMapper {
-	Membership mapToDomainEntity(
-			MembershipJpaEntity membership) {
-		System.out.println(membership.toString());
-		return Membership.generateMember(
-				new Membership.MembershipId(membership.getMembershipId()+""),
-				new Membership.MembershipName(membership.getName()),
-				new Membership.MembershipEmail(membership.getEmail()),
-				new Membership.MembershipAddress(membership.getAddress()),
-				new Membership.MembershipIsValid(membership.isValid()),
-				new Membership.MembershipAggregateIdentifier(membership.getAggregateIdentifier())
-				);
-	}
+public class MembershipMapper {
+    public Membership mapToDomainEntity(MembershipJpaEntity membershipJpaEntity) {
+        return Membership.generateMember(
+                new Membership.MembershipId(membershipJpaEntity.getMembershipId()+""),
+                new Membership.MembershipName(membershipJpaEntity.getName()),
+                new Membership.MembershipEmail(membershipJpaEntity.getEmail()),
+                new Membership.MembershipAddress(membershipJpaEntity.getAddress()),
+                new Membership.MembershipIsValid(membershipJpaEntity.isValid()),
+                new Membership.MembershipIsCorp(membershipJpaEntity.isCorp())
+        );
+    }
 }
