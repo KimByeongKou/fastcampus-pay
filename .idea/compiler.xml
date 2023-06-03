@@ -9,6 +9,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.5.2/69da26fe0e896d89feb388c425947c34416fde2e/spring-boot-configuration-processor-2.5.2.jar" />
         </processorPath>
         <module name="fastcampus-pay.membership-service.main" />
+        <module name="fastcampus-pay.common.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
