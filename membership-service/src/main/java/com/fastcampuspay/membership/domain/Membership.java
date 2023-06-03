@@ -7,10 +7,6 @@ import lombok.Value;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Membership {
-	/**
-	 * The baseline balance of the account. This was the balance of the account before the first
-	 * activity in the activityWindow.
-	 */
 	@Getter private final String membershipId;
 	@Getter private final String name;
 	@Getter private final String email;

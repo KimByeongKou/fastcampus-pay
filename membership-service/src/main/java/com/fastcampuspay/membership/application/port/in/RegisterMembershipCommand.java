@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -22,9 +24,11 @@ class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand
     private final String email;
 
     @NotNull
+    @NotBlank
     private final String address;
 
     @NotNull
+    @AssertTrue
     private final boolean isValid;
 
     public RegisterMembershipCommand(String name, String email, String address, boolean isValid) {
@@ -32,5 +36,7 @@ class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand
         this.email = email;
         this.address = address;
         this.isValid = isValid;
+
+        // this.validateSelf();
     }
 }
