@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/com.fastcampuspay.common.fastcampus-pay.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/com.fastcampuspay.common.fastcampus-pay.common.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/membership-service/com.fastcampuspay.membership.fastcampus-pay.membership-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/membership-service/com.fastcampuspay.membership.fastcampus-pay.membership-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/banking-service/fastcampus-pay.banking-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/banking-service/fastcampus-pay.banking-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" />
     </modules>

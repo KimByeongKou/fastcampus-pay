@@ -5,7 +5,7 @@ ext{
     axonVersion = "4.6.0"
 }
 
-group = 'com.fastcampuspay.membership'
+group = 'com.fastcampuspay.banking'
 version = '1.0.0'
 
 dependencies {
