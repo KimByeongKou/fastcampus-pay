@@ -190,10 +190,15 @@ docker-compose up -d
 
 
 ## Trouble Shooting
-### 1. gradle build(docker build) 시, dockerPrepare 단계에서 error 가 발생하는 경우 
+### 1. gradle build(docker build) 시, dockerPrepare 단계에서 error 가 발생하는 경우
 ```
 ./gradlew --stop
 ./gradlew docker
+```
+
+### 2. Test 실행 시, "class not found" 발생 시 gradle clean 
+```
+./gradlew clean
 ```
 
 ## Sample Screenshots

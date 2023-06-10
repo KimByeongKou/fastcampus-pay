@@ -1,0 +1,41 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    networks:
+      - fastcampuspay_network
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+    env_file: .env
+    ports:
+      - "3306:3306"
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
+
+  membership-service:
+    image: fastcampus-pay-membership-service:1.0.0
+    networks:
+      - fastcampuspay_network
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+    environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/fastcampus_pay?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpw
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+
+networks:
+  fastcampuspay_network:
+    driver: bridge
