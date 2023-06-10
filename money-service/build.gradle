@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group 'com.fastcampuspay.money'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+// 1. 고객 정보 정상인지 확인. (멤버)
+// 2. 고객의 연동된 계좌가 있는지 확인 (뱅킹)
+// 3. 법인 계좌 상태 정상인지, 잔액 충분한지 확인 (뱅킹)
+// 4. 펌뱅킹을 통해 법인 계좌 -> 고객 개인 계좌 입금 요청 (뱅킹)
+// 5-1. 실패 시, 기록 후 실패 응답
+// 5-2. 성공 시, 기록 후 잔액 변동. 성공 응답
+
+
+
+// 1. 고객 정보 정상인지 확인. (멤버)
+// 2. 고객의 연동된 계좌가 있는지 확인 (뱅킹)
+// 3-1. 잔액 충분한지 확인. 충분 시 기록, 감액, 성공 응답
+// 3-2. 잔액 부족 시, 얼만큼 부족한지에 대한 정보와 함께 실패 응답.
+
+
+
+// 송금 서비스에서는..
+// 1. 송금 시, 감액 요청에 실패하면 필요한만큼 증액 요청
+// 2.....
