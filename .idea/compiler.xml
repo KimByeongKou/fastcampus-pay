@@ -8,9 +8,10 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.5.2/69da26fe0e896d89feb388c425947c34416fde2e/spring-boot-configuration-processor-2.5.2.jar" />
         </processorPath>
-        <module name="fastcampus-pay.banking-service.main" />
+        <module name="fastcampus-pay.money-service.main" />
         <module name="fastcampus-pay.membership-service.main" />
         <module name="fastcampus-pay.common.main" />
+        <module name="com.fastcampuspay.banking.fastcampus-pay.banking-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
