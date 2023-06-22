@@ -1,14 +1,17 @@
 package com.fastcampuspay.money.application.service;
 
 import com.fastcampuspay.common.UseCase;
+import com.fastcampuspay.money.CountDownLatchManager;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.fastcampuspay.money.adapter.out.persistence.MoneyChangingRequestMapper;
 import com.fastcampuspay.money.application.port.in.IncreaseMoneyRequestCommand;
 import com.fastcampuspay.money.application.port.in.IncreaseMoneyRequestUseCase;
 import com.fastcampuspay.money.application.port.out.IncreaseMoneyPort;
+import com.fastcampuspay.money.application.port.out.SendRechargingMoneyTaskPort;
 import com.fastcampuspay.money.domain.MemberMoney;
 import com.fastcampuspay.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
@@ -19,8 +22,9 @@ import java.util.UUID;
 public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase {
 
     private final IncreaseMoneyPort increaseMoneyPort;
+    private final SendRechargingMoneyTaskPort sendRechargingMoneyTaskPort;
     private final MoneyChangingRequestMapper mapper;
-
+    private final CountDownLatchManager countDownLatchManager;
     @Override
     public MoneyChangingRequest increaseMoneyRequest(IncreaseMoneyRequestCommand command) {
 
@@ -37,6 +41,33 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
 
         // 6-1. 결과가 정상적이라면. 성공으로 MoneyChangingRequest 상태값을 변동 후에 리턴
         // 성공 시에 멤버의 MemberMoney 값 증액이 필요해요
+        return getMoneyChangingRequest(command);
+    }
+
+    @Override
+    public MoneyChangingRequest increaseMoneyRequestAsync(IncreaseMoneyRequestCommand command) {
+
+        // Count 증가.
+        countDownLatchManager.addCountDownLatch("rechargingMoneyTask");
+
+        // money increase 를 위한 task 생성, Produce
+        sendRechargingMoneyTaskPort.sendRechargingMoneyTaskPort(null);
+
+        // block, wait....
+        try {
+            // Task 완료 이벤트 올 때까지 기다린다.
+            countDownLatchManager.getCountDownLatch("rechargingMoneyTask").await();
+        } catch (InterruptedException e) {
+            // 문제 발생 시 핸들링.
+            throw new RuntimeException(e);
+        }
+
+        // 제대로 수행되었으면,, 머니 증액.
+        return getMoneyChangingRequest(command);
+    }
+
+    @Nullable
+    private MoneyChangingRequest getMoneyChangingRequest(IncreaseMoneyRequestCommand command) {
         MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
                 new MemberMoney.MembershipId(command.getTargetMembershipId())
                 ,command.getAmount());
@@ -52,7 +83,6 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
             );
         }
 
-        // 6-2. 결과가 실패라면, 실패라고 MoneyChangingRequest 상태값을 변동 후에 리턴
         return null;
     }
 }
