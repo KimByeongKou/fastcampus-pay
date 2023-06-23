@@ -1,11 +1,8 @@
 package com.fastcampuspay.money.adapter.out.service;
 
 import com.fastcampuspay.common.CommonHttpClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.net.http.HttpResponse;
 
 @Component
 public class MembershipServiceAdapter {
