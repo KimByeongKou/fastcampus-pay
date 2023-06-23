@@ -48,11 +48,8 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
 
     @Override
     public MoneyChangingRequest increaseMoneyRequestAsync(IncreaseMoneyRequestCommand command) {
-
         // Count 증가.
         countDownLatchManager.addCountDownLatch("rechargingMoneyTask");
-
-
         SubTask validateMembershipIdTask = SubTask.builder()
                 .subTaskName("validateMembershipId")
                 .membershipID(command.getTargetMembershipId())

@@ -82,6 +82,7 @@ services:
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
       - TASK_TOPIC=fastcampus.task.topic
       - TASK_RESULT_TOPIC=fastcampus.task.result.topic
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'
     networks:
