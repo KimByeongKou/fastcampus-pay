@@ -1,6 +1,5 @@
 package com.fastcampuspay.money.application.service;
-
-import com.fastcampuspay.common.UseCase;
+import com.fastcampuspay.common.*;
 import com.fastcampuspay.money.CountDownLatchManager;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.fastcampuspay.money.adapter.out.persistence.MoneyChangingRequestMapper;
@@ -14,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+
+import java.util.List;
 import java.util.UUID;
 
 @UseCase
@@ -50,20 +52,53 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
         // Count 증가.
         countDownLatchManager.addCountDownLatch("rechargingMoneyTask");
 
+
+        SubTask validateMembershipIdTask = SubTask.builder()
+                .subTaskName("validateMembershipId")
+                .membershipID(command.getTargetMembershipId())
+                .taskType("membership")
+                .status("ready")
+                .build();
+
+        SubTask validateBankingTask = SubTask.builder()
+                .subTaskName("validateBanking")
+                .membershipID(command.getTargetMembershipId())
+                .taskType("banking")
+                .status("ready")
+                .build();
+
+        List<SubTask> subTaskList = new ArrayList<>();
+        subTaskList.add(validateMembershipIdTask);
+        subTaskList.add(validateBankingTask);
+
+        RechargingMoneyTask task = RechargingMoneyTask.builder()
+                .taskID(UUID.randomUUID().toString())
+                .taskName("rechargingMoneyTask")
+                .subTaskList(subTaskList)
+                .moneyAmount(command.getAmount())
+                .membershipID(command.getTargetMembershipId())
+                .toBankName("fastcampus") // 법인 계좌 은행 이름
+                .build();
+
         // money increase 를 위한 task 생성, Produce
-        sendRechargingMoneyTaskPort.sendRechargingMoneyTaskPort(null);
+        sendRechargingMoneyTaskPort.sendRechargingMoneyTaskPort(task);
 
         // block, wait....
         try {
             // Task 완료 이벤트 올 때까지 기다린다.
             countDownLatchManager.getCountDownLatch("rechargingMoneyTask").await();
+            String result = countDownLatchManager.getDataForKey(task.getTaskID());
+            if (result.equals("success")) {
+                // 제대로 수행됨,, 머니 증액.
+                System.out.println("success for async Money Recharging!!");
+                return getMoneyChangingRequest(command);
+            } else {
+                return null;
+            }
         } catch (InterruptedException e) {
             // 문제 발생 시 핸들링.
             throw new RuntimeException(e);
         }
-
-        // 제대로 수행되었으면,, 머니 증액.
-        return getMoneyChangingRequest(command);
     }
 
     @Nullable

@@ -1,7 +1,5 @@
-package com.fastcampuspay.money.adapter.out.kafka;
+package com.fastcampuspay.taskconsumer;
 
-import com.fastcampuspay.common.RechargingMoneyTask;
-import com.fastcampuspay.money.application.port.out.SendRechargingMoneyTaskPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -12,12 +10,12 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Component
-public class TaskProducer implements SendRechargingMoneyTaskPort {
+public class TaskResultProducer {
     private final KafkaProducer<String, String> producer;
     private final String topic;
 
-    public TaskProducer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
-                        @Value("${task.topic}")String topic) {
+    public TaskResultProducer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
+                        @Value("${task.result.topic}")String topic) {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", bootstrapServers);
@@ -28,7 +26,7 @@ public class TaskProducer implements SendRechargingMoneyTaskPort {
         this.topic = topic;
     }
 
-    public void sendTask (String key, RechargingMoneyTask task) {
+    public void sendTaskResult (String key, Object task) {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonStringToProduce;
         try {
@@ -45,10 +43,5 @@ public class TaskProducer implements SendRechargingMoneyTaskPort {
                 // System.err.println("Failed to send message: " + exception.getMessage());
             }
         });
-    }
-
-    @Override
-    public void sendRechargingMoneyTaskPort(RechargingMoneyTask task) {
-        this.sendTask(task.getTaskID(), task);
     }
 }

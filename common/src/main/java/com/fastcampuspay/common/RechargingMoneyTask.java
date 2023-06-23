@@ -1,15 +1,20 @@
-package com.fastcampuspay.money.adapter.out.kafka;
+package com.fastcampuspay.common;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
-public class RechargingMoneyTask extends Task { // Increase Money
+public class RechargingMoneyTask { // Increase Money
+
+    private String taskID;
+    private String taskName;
 
     private String membershipID;
 

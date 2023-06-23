@@ -81,7 +81,7 @@ services:
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
       - TASK_TOPIC=fastcampus.task.topic
-
+      - TASK_RESULT_TOPIC=fastcampus.task.result.topic
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'
     networks:
@@ -138,6 +138,19 @@ services:
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
 
+  task-consumer:
+    image: fastcampus-pay-task-consumer:1.0.0
+    networks:
+      - fastcampuspay_network
+    restart: always
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=fastcampus.logging.out.stdout
+      - TASK_TOPIC=fastcampus.task.topic
+      - TASK_RESULT_TOPIC=fastcampus.task.result.topic
 networks:
   fastcampuspay_network:
     driver: bridge
