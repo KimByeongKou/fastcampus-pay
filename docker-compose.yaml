@@ -37,7 +37,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
-
+      - TASK_TOPIC=fastcampus.task.topic
   banking-service:
     image: fastcampus-pay-banking-service:1.0.0
     networks:
@@ -59,6 +59,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
+      - TASK_TOPIC=fastcampus.task.topic
   money-service:
     image: fastcampus-pay-money-service:1.0.0
     networks:
@@ -79,6 +80,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
+      - TASK_TOPIC=fastcampus.task.topic
 
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'
