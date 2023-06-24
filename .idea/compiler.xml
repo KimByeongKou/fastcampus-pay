@@ -12,6 +12,7 @@
         <module name="fastcampus-pay.logging-consumer.main" />
         <module name="fastcampus-pay.membership-service.main" />
         <module name="fastcampus-pay.common.main" />
+        <module name="fastcampus-pay.task-consumer.main" />
         <module name="com.fastcampuspay.banking.fastcampus-pay.banking-service.main" />
       </profile>
     </annotationProcessing>
