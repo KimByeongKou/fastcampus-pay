@@ -1,0 +1,33 @@
+plugins {
+    id 'com.palantir.docker' version '0.25.0'
+}
+ext{
+    axonVersion = "4.6.0"
+}
+
+group 'com.fastcampuspay.remittance'
+version = '1.0.0'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation project(path: ':common')
+
+    testImplementation 'junit:junit:4.13.1'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+//    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
+//    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
+}
+
+docker {
+    println(tasks.bootJar.outputs.files)
+    name rootProject.name+'-'+project.name + ":" + version
+    dockerfile file('../Dockerfile')
+    files tasks.bootJar.outputs.files
+    buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}
