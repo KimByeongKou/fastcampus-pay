@@ -14,6 +14,7 @@ import com.fastcampuspay.money.application.port.out.SendRechargingMoneyTaskPort;
 import com.fastcampuspay.money.domain.MemberMoney;
 import com.fastcampuspay.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
     private final GetMembershipPort membershipPort;
     private final IncreaseMoneyPort increaseMoneyPort;
     private final MoneyChangingRequestMapper mapper;
+
+    private final CommandGateway commandGateway;
 
     @Override
     public MoneyChangingRequest increaseMoneyRequest(IncreaseMoneyRequestCommand command) {
@@ -145,6 +148,34 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
             return null;
         }
         // 5. Consume ok, Logic
+        return null;
+    }
+
+    @Override
+    public MoneyChangingRequest increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
+        commandGateway.send(command)
+                .whenComplete((Object result, Throwable throwable) -> {
+                    if (throwable == null) {
+                        System.out.println("Aggregate ID:" + result.toString());
+
+                        MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
+                                new MemberMoney.MembershipId(command.getTargetMembershipId())
+                                , command.getAmount());
+
+                        if (memberMoneyJpaEntity != null) {
+                            mapper.mapToDomainEntity(increaseMoneyPort.createMoneyChangingRequest(
+                                            new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
+                                            new MoneyChangingRequest.MoneyChangingType(1),
+                                            new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
+                                            new MoneyChangingRequest.MoneyChangingStatus(1),
+                                            new MoneyChangingRequest.Uuid(UUID.randomUUID().toString())
+                                    )
+                            );
+                        }
+                    } else {
+                        System.out.println("error : " + throwable.getMessage());
+                    }
+                });
         return null;
     }
 }
