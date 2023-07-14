@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class MemberMoneyJpaEntity {
     @Id
     @GeneratedValue
-    private Long memberMoneyId;
+    private Long id;
 
     private Long membershipId;
 
@@ -25,8 +25,19 @@ public class MemberMoneyJpaEntity {
 
     private String aggregateIdentifier;
 
-    public MemberMoneyJpaEntity(Long membershipId, int balance) {
+    public MemberMoneyJpaEntity(Long membershipId, int balance, String aggregateIdentifier) {
         this.membershipId = membershipId;
         this.balance = balance;
+        this.aggregateIdentifier = aggregateIdentifier;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberMoneyJpaEntity{" +
+                "id=" + id +
+                ", membershipId=" + membershipId +
+                ", balance=" + balance +
+                ", aggregateIdentifier='" + aggregateIdentifier + '\'' +
+                '}';
     }
 }

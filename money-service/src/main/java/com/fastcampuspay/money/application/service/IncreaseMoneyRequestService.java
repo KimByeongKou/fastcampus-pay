@@ -4,13 +4,15 @@ import com.fastcampuspay.common.CountDownLatchManager;
 import com.fastcampuspay.common.RechargingMoneyTask;
 import com.fastcampuspay.common.SubTask;
 import com.fastcampuspay.common.UseCase;
+import com.fastcampuspay.money.adapter.axon.command.CreateMoneyCommand;
+import com.fastcampuspay.money.adapter.axon.command.IncreaseMoneyRequestEventCommand;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.fastcampuspay.money.adapter.out.persistence.MoneyChangingRequestMapper;
+import com.fastcampuspay.money.application.port.in.CreateMemberMoneyCommand;
+import com.fastcampuspay.money.application.port.in.CreateMemberMoneyUseCase;
 import com.fastcampuspay.money.application.port.in.IncreaseMoneyRequestCommand;
 import com.fastcampuspay.money.application.port.in.IncreaseMoneyRequestUseCase;
-import com.fastcampuspay.money.application.port.out.GetMembershipPort;
-import com.fastcampuspay.money.application.port.out.IncreaseMoneyPort;
-import com.fastcampuspay.money.application.port.out.SendRechargingMoneyTaskPort;
+import com.fastcampuspay.money.application.port.out.*;
 import com.fastcampuspay.money.domain.MemberMoney;
 import com.fastcampuspay.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +26,17 @@ import java.util.UUID;
 @UseCase
 @RequiredArgsConstructor
 @Transactional
-public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase {
+public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase, CreateMemberMoneyUseCase {
 
     private final CountDownLatchManager countDownLatchManager;
     private final SendRechargingMoneyTaskPort sendRechargingMoneyTaskPort;
     private final GetMembershipPort membershipPort;
     private final IncreaseMoneyPort increaseMoneyPort;
     private final MoneyChangingRequestMapper mapper;
-
     private final CommandGateway commandGateway;
 
+    private final GetMemberMoneyPort getMemberMoneyPort;
+    private final CreateMemberMoneyPort createMemberMoneyPort;
     @Override
     public MoneyChangingRequest increaseMoneyRequest(IncreaseMoneyRequestCommand command) {
 
@@ -153,7 +156,32 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
 
     @Override
     public MoneyChangingRequest increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
-        commandGateway.send(command)
+        String moneyIdentifier = "";
+        try {
+            MemberMoneyJpaEntity memberMoneyEntity = getMemberMoneyPort.getMemberMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()));
+            moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
+        } catch (Exception e) {
+            // MemberMoney 정보가 없는 경우, 생성.
+            CreateMoneyCommand createMoneyCommand = CreateMoneyCommand.builder().membershipId(command.getTargetMembershipId()).build();
+            commandGateway.send(createMoneyCommand)
+                    .whenComplete((Object result, Throwable throwable) -> {
+                        if (throwable == null) {
+                            System.out.println("Create Money Aggregate ID:" + result.toString());
+                            // 여기에서 후속 처리해야할수도..
+                        } else {
+                            System.out.println("error : " + throwable.getMessage());
+                        }
+                    });
+        }
+
+        // String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
+        IncreaseMoneyRequestEventCommand eventCommand = IncreaseMoneyRequestEventCommand.builder()
+                .aggregateIdentifier(moneyIdentifier)
+                .targetMembershipId(command.getTargetMembershipId())
+                .amount(command.getAmount())
+                .build();
+
+        commandGateway.send(eventCommand)
                 .whenComplete((Object result, Throwable throwable) -> {
                     if (throwable == null) {
                         System.out.println("Aggregate ID:" + result.toString());
@@ -177,5 +205,25 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase 
                     }
                 });
         return null;
+    }
+
+    @Override
+    public void createMemberMoney(CreateMemberMoneyCommand command) {
+        commandGateway.send(CreateMoneyCommand.builder().membershipId(command.getTargetMembershipId()).build())
+                .whenComplete((Object result, Throwable throwable) -> {
+            if (throwable == null) {
+                System.out.println("Create Money Aggregate ID:" + result.toString());
+                createMemberMoneyPort.createMemberMoney(
+                        new MemberMoney.MembershipId(command.getTargetMembershipId())
+                        , new MemberMoney.MoneyAggregateIdentifier(result.toString()));
+            } else {
+                throwable.printStackTrace();
+                System.out.println("error : " + throwable.getMessage());
+            }
+        });
+
+//        createMemberMoneyPort.createMemberMoney(
+//                new MemberMoney.MembershipId(command.getTargetMembershipId())
+//        );
     }
 }
