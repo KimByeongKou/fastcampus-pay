@@ -6,6 +6,8 @@ import com.fastcampuspay.common.SubTask;
 import com.fastcampuspay.common.UseCase;
 import com.fastcampuspay.money.adapter.axon.command.CreateMoneyCommand;
 import com.fastcampuspay.money.adapter.axon.command.IncreaseMoneyRequestEventCommand;
+import com.fastcampuspay.money.adapter.axon.command.RechargingMoneyRequestCreateCommand;
+import com.fastcampuspay.money.adapter.axon.event.RechargingRequestCreatedEvent;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.fastcampuspay.money.adapter.out.persistence.MoneyChangingRequestMapper;
 import com.fastcampuspay.money.application.port.in.CreateMemberMoneyCommand;
@@ -158,36 +160,48 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
         MemberMoneyJpaEntity memberMoneyEntity = getMemberMoneyPort.getMemberMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()));
         String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
 
-        // String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
-        IncreaseMoneyRequestEventCommand eventCommand = IncreaseMoneyRequestEventCommand.builder()
-                .aggregateIdentifier(moneyIdentifier)
-                .targetMembershipId(command.getTargetMembershipId())
-                .amount(command.getAmount())
-                .build();
-
-        commandGateway.send(eventCommand)
-                .whenComplete((Object result, Throwable throwable) -> {
+        // 외부 펌뱅킹 요청. (펌뱅킹 서비스)
+        // Todo..
+        commandGateway.send(new RechargingMoneyRequestCreateCommand(moneyIdentifier, UUID.randomUUID().toString(), command.getTargetMembershipId(), command.getAmount())).whenComplete(
+                (Object result, Throwable throwable) -> {
                     if (throwable == null) {
                         System.out.println("Aggregate ID:" + result.toString());
-
-                        MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
-                                new MemberMoney.MembershipId(command.getTargetMembershipId())
-                                , command.getAmount());
-
-                        if (memberMoneyJpaEntity != null) {
-                            mapper.mapToDomainEntity(increaseMoneyPort.createMoneyChangingRequest(
-                                            new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
-                                            new MoneyChangingRequest.MoneyChangingType(1),
-                                            new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
-                                            new MoneyChangingRequest.MoneyChangingStatus(1),
-                                            new MoneyChangingRequest.Uuid(UUID.randomUUID().toString())
-                                    )
-                            );
-                        }
                     } else {
-                        System.out.println("error : " + throwable.getMessage());
+                        throwable.printStackTrace();
+                        System.out.println("Error occurred.");
                     }
-                });
+                }
+        );
+
+//        IncreaseMoneyRequestEventCommand eventCommand = IncreaseMoneyRequestEventCommand.builder()
+//                .aggregateIdentifier(moneyIdentifier)
+//                .targetMembershipId(command.getTargetMembershipId())
+//                .amount(command.getAmount())
+//                .build();
+//
+//        commandGateway.send(eventCommand)
+//                .whenComplete((Object result, Throwable throwable) -> {
+//                    if (throwable == null) {
+//                        System.out.println("Aggregate ID:" + result.toString());
+//
+//                        MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
+//                                new MemberMoney.MembershipId(command.getTargetMembershipId())
+//                                , command.getAmount());
+//
+//                        if (memberMoneyJpaEntity != null) {
+//                            mapper.mapToDomainEntity(increaseMoneyPort.createMoneyChangingRequest(
+//                                            new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
+//                                            new MoneyChangingRequest.MoneyChangingType(1),
+//                                            new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
+//                                            new MoneyChangingRequest.MoneyChangingStatus(1),
+//                                            new MoneyChangingRequest.Uuid(UUID.randomUUID().toString())
+//                                    )
+//                            );
+//                        }
+//                    } else {
+//                        System.out.println("error : " + throwable.getMessage());
+//                    }
+//                });
     }
 
     @Override

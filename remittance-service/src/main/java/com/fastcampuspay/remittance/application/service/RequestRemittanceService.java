@@ -66,7 +66,6 @@ public class RequestRemittanceService implements RequestRemittanceUseCase {
             if (!remittanceResult1 || !remittanceResult2) {
                 return null;
             }
-
         } else if (command.getRemittanceType()==1) {
             // 3-2. 외부 은행 계좌
             // 외부 은행 계좌가 적절한지 확인 (banking svc)

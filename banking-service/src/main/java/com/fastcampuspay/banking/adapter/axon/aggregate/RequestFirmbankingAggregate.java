@@ -4,6 +4,7 @@ import com.fastcampuspay.banking.adapter.axon.command.CreateRequestFirmbankingCo
 import com.fastcampuspay.banking.adapter.axon.command.UpdateRequestFirmbankingCommand;
 import com.fastcampuspay.banking.adapter.axon.event.RequestFirmbankingCreatedEvent;
 import com.fastcampuspay.banking.adapter.axon.event.UpdateRequestFirmbankingEvent;
+import com.fastcampuspay.common.event.CheckRegisteredBankAccountEvent;
 import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;

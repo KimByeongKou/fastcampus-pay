@@ -2,8 +2,10 @@ package com.fastcampuspay.money.adapter.axon.aggregate;
 
 import com.fastcampuspay.money.adapter.axon.command.CreateMoneyCommand;
 import com.fastcampuspay.money.adapter.axon.command.IncreaseMoneyRequestEventCommand;
+import com.fastcampuspay.money.adapter.axon.command.RechargingMoneyRequestCreateCommand;
 import com.fastcampuspay.money.adapter.axon.event.IncreaseMoneyEvent;
 import com.fastcampuspay.money.adapter.axon.event.MemberMoneyCreateEvent;
+import com.fastcampuspay.money.adapter.axon.event.RechargingRequestCreatedEvent;
 import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -43,6 +45,14 @@ public class MemberMoneyAggregate {
         // store event
         apply(new IncreaseMoneyEvent(id, command.getTargetMembershipId(), command.getAmount()));
         return id;
+    }
+    @CommandHandler
+    public void handle(RechargingMoneyRequestCreateCommand command) {
+        System.out.println("RechargingMoneyRequestCreateCommand Handler");
+        id = command.getAggregateIdentifier();
+
+        apply(new RechargingRequestCreatedEvent(command.getRechargingRequestId(), command.getMembershipId(), command.getAmount()));
+        // commandGateway.send(new OrderCreatedEvent(orderId));
     }
 
     @EventSourcingHandler

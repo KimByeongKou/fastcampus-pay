@@ -72,7 +72,6 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
 
     @Override
     public void requestFirmbankingByEvent(RequestFirmbankingCommand command) {
-
         commandGateway.send(new CreateRequestFirmbankingCommand(
                 command.getFromBankName(),
                 command.getFromBankAccountNumber(),
@@ -114,6 +113,7 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
                     requestedEntity.setFirmbankingStatus(2);
                 }
 
+                requestFirmbankingPort.modifyFirmbankingRequest(requestedEntity);
             } else {
                 throwable.printStackTrace();
                 System.out.println("error : " + throwable.getMessage());
