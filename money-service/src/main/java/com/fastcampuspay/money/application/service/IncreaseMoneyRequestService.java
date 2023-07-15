@@ -155,24 +155,9 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
     }
 
     @Override
-    public MoneyChangingRequest increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
-        String moneyIdentifier = "";
-        try {
-            MemberMoneyJpaEntity memberMoneyEntity = getMemberMoneyPort.getMemberMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()));
-            moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
-        } catch (Exception e) {
-            // MemberMoney 정보가 없는 경우, 생성.
-            CreateMoneyCommand createMoneyCommand = CreateMoneyCommand.builder().membershipId(command.getTargetMembershipId()).build();
-            commandGateway.send(createMoneyCommand)
-                    .whenComplete((Object result, Throwable throwable) -> {
-                        if (throwable == null) {
-                            System.out.println("Create Money Aggregate ID:" + result.toString());
-                            // 여기에서 후속 처리해야할수도..
-                        } else {
-                            System.out.println("error : " + throwable.getMessage());
-                        }
-                    });
-        }
+    public void increaseMoneyRequestByEvent(IncreaseMoneyRequestCommand command) {
+        MemberMoneyJpaEntity memberMoneyEntity = getMemberMoneyPort.getMemberMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()));
+        String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
 
         // String moneyIdentifier = memberMoneyEntity.getAggregateIdentifier();
         IncreaseMoneyRequestEventCommand eventCommand = IncreaseMoneyRequestEventCommand.builder()
@@ -204,7 +189,6 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
                         System.out.println("error : " + throwable.getMessage());
                     }
                 });
-        return null;
     }
 
     @Override

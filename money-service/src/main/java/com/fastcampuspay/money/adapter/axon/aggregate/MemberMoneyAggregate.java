@@ -35,12 +35,30 @@ public class MemberMoneyAggregate {
         apply(new MemberMoneyCreateEvent(command.getMembershipId()));
     }
 
+    @CommandHandler
+    public String handle(@NotNull IncreaseMoneyRequestEventCommand command) {
+        System.out.println("IncreaseMoneyRequestEventCommand Handler");
+        id = command.getAggregateIdentifier();
+
+        // store event
+        apply(new IncreaseMoneyEvent(id, command.getTargetMembershipId(), command.getAmount()));
+        return id;
+    }
+
     @EventSourcingHandler
     public void on(MemberMoneyCreateEvent event) {
         System.out.println("MemberMoneyCreateEvent Sourcing Handler");
         id = UUID.randomUUID().toString();
         membershipId = Long.parseLong(event.getMembershipId());
-        balance = 10;
+        balance = 0;
+    }
+
+    @EventSourcingHandler
+    public void on(IncreaseMoneyEvent event) {
+        System.out.println("IncreaseMoneyEvent Sourcing Handler");
+        id = event.getAggregateIdentifier();
+        membershipId = Long.parseLong(event.getTargetMembershipId());
+        balance = event.getAmount();
     }
 
     public MemberMoneyAggregate() {

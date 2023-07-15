@@ -14,15 +14,17 @@ import javax.validation.constraints.NotNull;
 public class IncreaseMoneyEvent extends SelfValidating<IncreaseMoneyRequestCommand>  {
 
     @NotNull
+    private final String aggregateIdentifier;
+
+    @NotNull
     private final String targetMembershipId;
 
     @NotNull
     private final int amount;
 
-
-    public IncreaseMoneyEvent(@NotNull String targetMembershipId, @NotNull int amount) {
+    public IncreaseMoneyEvent(String aggregateIdentifier, String targetMembershipId, int amount) {
+        this.aggregateIdentifier = aggregateIdentifier;
         this.targetMembershipId = targetMembershipId;
         this.amount = amount;
-        this.validateSelf();
     }
 }
