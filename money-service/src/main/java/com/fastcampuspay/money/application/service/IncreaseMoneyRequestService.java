@@ -34,7 +34,6 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
     private final IncreaseMoneyPort increaseMoneyPort;
     private final MoneyChangingRequestMapper mapper;
     private final CommandGateway commandGateway;
-
     private final GetMemberMoneyPort getMemberMoneyPort;
     private final CreateMemberMoneyPort createMemberMoneyPort;
     @Override
@@ -205,9 +204,5 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
                 System.out.println("error : " + throwable.getMessage());
             }
         });
-
-//        createMemberMoneyPort.createMemberMoney(
-//                new MemberMoney.MembershipId(command.getTargetMembershipId())
-//        );
     }
 }
