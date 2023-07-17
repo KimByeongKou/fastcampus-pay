@@ -97,6 +97,7 @@ services:
       - TASK_TOPIC=fastcampus.task.topic
       - TASK_RESULT_TOPIC=fastcampus.task.result.topic
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
 
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'

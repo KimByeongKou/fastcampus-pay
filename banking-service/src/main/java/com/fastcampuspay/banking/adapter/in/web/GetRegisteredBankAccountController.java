@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class GetRegisteredBankAccountController {
 
     private final GetRegisteredBankAccountUseCase getRegisteredBankAccountUseCase;
-    @PostMapping(path = "/banking/account/{membershipId}")
+    @GetMapping(path = "/banking/account/{membershipId}")
     RegisteredBankAccount getRegisteredBankAccount(@PathVariable String membershipId) {
         // 편의상 사용.
         GetRegisteredBankAccountCommand command = GetRegisteredBankAccountCommand.builder().membershipId(membershipId).build();

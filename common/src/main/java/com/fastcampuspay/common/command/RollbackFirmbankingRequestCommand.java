@@ -1,4 +1,4 @@
-package com.fastcampuspay.common.event;
+package com.fastcampuspay.common.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +8,13 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckRegisteredBankAccountCommand {
-
+public class RollbackFirmbankingRequestCommand {
+    private String rollbackFirmbankingId;
     @TargetAggregateIdentifier
     private String aggregateIdentifier;
-    private String rechargingRequestId;
+    private String rechargeRequestId;
     private String membershipId;
+    private String bankName;
+    private String bankAccountNumber;
+    private int moneyAmount;
 }

@@ -14,4 +14,20 @@ public class RechargingRequestCreatedEvent {
 
     private int amount;
 
+    private String bankingAccountAggregateIdentifier;
+
+    private String bankName;
+    private String bankAccountNumber;
+
+    @Override
+    public String toString() {
+        return "RechargingRequestCreatedEvent{" +
+                "rechargingRequestId='" + rechargingRequestId + '\'' +
+                ", membershipId='" + membershipId + '\'' +
+                ", amount=" + amount +
+                ", bankingAccountAggregateIdentifier='" + bankingAccountAggregateIdentifier + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", bankAccountNumber='" + bankAccountNumber + '\'' +
+                '}';
+    }
 }

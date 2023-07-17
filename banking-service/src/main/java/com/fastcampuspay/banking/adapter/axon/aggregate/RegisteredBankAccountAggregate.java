@@ -2,12 +2,11 @@ package com.fastcampuspay.banking.adapter.axon.aggregate;
 
 import com.fastcampuspay.banking.adapter.axon.command.CreateRegisteredBankAccountCommand;
 import com.fastcampuspay.banking.adapter.axon.event.CreateRegisteredBankAccountEvent;
+import com.fastcampuspay.banking.adapter.out.external.bank.BankAccount;
 import com.fastcampuspay.banking.adapter.out.external.bank.GetBankAccountRequest;
 import com.fastcampuspay.banking.application.port.out.RequestBankAccountInfoPort;
-import com.fastcampuspay.common.event.CheckRegisteredBankAccountCommand;
+import com.fastcampuspay.common.command.CheckRegisteredBankAccountCommand;
 import com.fastcampuspay.common.event.CheckedRegisteredBankAccountEvent;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -29,10 +28,8 @@ public class RegisteredBankAccountAggregate {
 
     private String bankAccountNumber;
 
-    private RequestBankAccountInfoPort port;
     @CommandHandler
-    public RegisteredBankAccountAggregate(@NotNull CreateRegisteredBankAccountCommand command, RequestBankAccountInfoPort port) {
-        this.port = port;
+    public RegisteredBankAccountAggregate(@NotNull CreateRegisteredBankAccountCommand command) {
         System.out.println("CreateRegisteredBankAccountCommand Handler");
 
         // store event
@@ -40,16 +37,25 @@ public class RegisteredBankAccountAggregate {
     }
 
     @CommandHandler
-    public void handle (@NotNull CheckRegisteredBankAccountCommand command) {
+    public void handle (@NotNull CheckRegisteredBankAccountCommand command, RequestBankAccountInfoPort bankAccountInfoPort) {
         System.out.println("CheckRegisteredBankAccountCommand Handler");
+        id = command.getAggregateIdentifier();
 
-        // port.get
-        System.out.println("CheckRegisteredBankAccountCommand after port");
-        // check membership Registered Account...
-        // String membershipId = command.getMembershipId();
-        apply(new CheckedRegisteredBankAccountEvent(command.getRechargingRequestId(), command.getMembershipId(), true));
+        BankAccount bankAccount = bankAccountInfoPort.getBankAccountInfo(new GetBankAccountRequest(command.getBankName(), command.getBankAccountNumber()));
+        String firmbankingUUID = UUID.randomUUID().toString();
+
+        apply(new CheckedRegisteredBankAccountEvent(
+                command.getRechargingRequestId()
+                , command.getCheckRegisteredBankAccountId()
+                , command.getMembershipId()
+                , bankAccount.isValid()
+                , command.getAmount()
+                , firmbankingUUID
+                , bankAccount.getBankName()
+                , bankAccount.getBankAccountNumber()
+            )
+        );
     }
-
 
     @EventSourcingHandler
     public void on(CreateRegisteredBankAccountEvent event) {
@@ -60,11 +66,7 @@ public class RegisteredBankAccountAggregate {
         bankAccountNumber = event.getBankAccountNumber();
     }
 
-
     public RegisteredBankAccountAggregate() {
         // System.out.println("RegisteredBankAccountAggregate Constructor");
-    }
-    public RegisteredBankAccountAggregate(RequestBankAccountInfoPort port) {
-        this.port = port;
     }
 }

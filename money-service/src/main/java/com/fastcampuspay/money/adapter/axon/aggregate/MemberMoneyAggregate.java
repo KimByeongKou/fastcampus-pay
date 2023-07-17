@@ -6,6 +6,8 @@ import com.fastcampuspay.money.adapter.axon.command.RechargingMoneyRequestCreate
 import com.fastcampuspay.money.adapter.axon.event.IncreaseMoneyEvent;
 import com.fastcampuspay.money.adapter.axon.event.MemberMoneyCreateEvent;
 import com.fastcampuspay.money.adapter.axon.event.RechargingRequestCreatedEvent;
+import com.fastcampuspay.money.application.port.out.GetRegisteredBankAccountPort;
+import com.fastcampuspay.money.application.port.out.RegisteredBankAccountAggregateIdentifier;
 import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -47,12 +49,21 @@ public class MemberMoneyAggregate {
         return id;
     }
     @CommandHandler
-    public void handle(RechargingMoneyRequestCreateCommand command) {
+    public void handle(RechargingMoneyRequestCreateCommand command, GetRegisteredBankAccountPort getRegisteredBankAccountPort) {
         System.out.println("RechargingMoneyRequestCreateCommand Handler");
         id = command.getAggregateIdentifier();
 
-        apply(new RechargingRequestCreatedEvent(command.getRechargingRequestId(), command.getMembershipId(), command.getAmount()));
-        // commandGateway.send(new OrderCreatedEvent(orderId));
+        System.out.println("RechargingMoneyRequestCreateCommand Handler command aggregate identifier : " + command.getAggregateIdentifier());
+        RegisteredBankAccountAggregateIdentifier bankAccountAggregate = getRegisteredBankAccountPort.getRegisteredBankAccount(command.getMembershipId());
+        System.out.println("RechargingMoneyRequestCreateCommand Handler command bankAccountAggregate : " + bankAccountAggregate);
+        apply(new RechargingRequestCreatedEvent(
+                command.getRechargingRequestId()
+                , command.getMembershipId()
+                , command.getAmount()
+                , bankAccountAggregate.getAggregateIdentifier()
+                , bankAccountAggregate.getBankName()
+                , bankAccountAggregate.getBankAccountNumber()
+        ));
     }
 
     @EventSourcingHandler

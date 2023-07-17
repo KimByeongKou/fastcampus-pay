@@ -9,6 +9,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CheckedRegisteredBankAccountEvent {
     private String rechargingRequestId;
+    private String checkRegisteredBankAccountId;
     private String membershipId;
-    private boolean status;
+    private boolean isChecked;
+
+    private int amount;
+
+    private String firmbankingRequestAggregateIdentifier;
+
+    private String toBankName;
+    private String toBankAccountNumber;
+    @Override
+    public String toString() {
+        return "CheckedRegisteredBankAccountEvent{" +
+                "rechargingRequestId='" + rechargingRequestId + '\'' +
+                ", membershipId='" + membershipId + '\'' +
+                ", isChecked=" + isChecked +
+                ", amount=" + amount +
+                ", firmbankingRequestAggregateIdentifier='" + firmbankingRequestAggregateIdentifier + '\'' +
+                '}';
+    }
 }

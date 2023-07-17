@@ -25,7 +25,6 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
     private final FirmbankingRequestMapper mapper;
     private final RequestFirmbankingPort requestFirmbankingPort;
     private final RequestExternalFirmbankingPort requestExternalFirmbankingPort;
-
     private final CommandGateway commandGateway;
 
     @Override
@@ -50,7 +49,8 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
                 command.getFromBankName(),
                 command.getFromBankAccountNumber(),
                 command.getToBankName(),
-                command.getToBankAccountNumber()
+                command.getToBankAccountNumber(),
+                command.getMoneyAmount()
         ));
 
         // Transactional UUID
@@ -97,7 +97,8 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
                         command.getFromBankName(),
                         command.getFromBankAccountNumber(),
                         command.getToBankName(),
-                        command.getToBankAccountNumber()
+                        command.getToBankAccountNumber(),
+                        command.getMoneyAmount()
                 ));
 
                 // Transactional UUID
