@@ -13,6 +13,7 @@
         <module name="fastcampus-pay.common.main" />
         <module name="fastcampus-pay.task-consumer.main" />
         <module name="com.fastcampuspay.money.fastcampus-pay.money-service.main" />
+        <module name="fastcampus-pay.payment-service.main" />
         <module name="com.fastcampuspay.banking.fastcampus-pay.banking-service.main" />
         <module name="fastcampus-pay.remittance-service.main" />
       </profile>
