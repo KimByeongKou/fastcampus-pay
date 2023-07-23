@@ -3,7 +3,7 @@ plugins {
 }
 
 ext{
-    axonVersion = "4.6.0"
+    axonVersion = "4.8.0"
 }
 
 group 'com.fastcampuspay.common'

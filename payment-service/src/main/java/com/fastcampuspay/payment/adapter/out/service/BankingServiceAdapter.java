@@ -1,7 +1,7 @@
 package com.fastcampuspay.payment.adapter.out.service;
 
 
-import com.fastcampuspay.payment.CommonHttpClient;
+import com.fastcampuspay.common.CommonHttpClient;
 import com.fastcampuspay.payment.application.port.out.GetRegisteredBankAccountPort;
 import com.fastcampuspay.payment.application.port.out.RegisteredBankAccountAggregateIdentifier;
 import com.fasterxml.jackson.databind.ObjectMapper;

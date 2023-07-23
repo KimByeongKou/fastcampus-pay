@@ -1,6 +1,6 @@
 package com.fastcampuspay.payment.adapter.out.service;
 
-import com.fastcampuspay.payment.CommonHttpClient;
+import com.fastcampuspay.common.CommonHttpClient;
 import com.fastcampuspay.payment.application.port.out.GetMembershipPort;
 import com.fastcampuspay.payment.application.port.out.MembershipStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;

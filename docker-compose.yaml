@@ -203,6 +203,10 @@ services:
       - kafka
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/fastcampus_pay?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw
