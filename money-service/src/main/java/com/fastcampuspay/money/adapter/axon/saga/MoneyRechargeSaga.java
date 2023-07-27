@@ -1,9 +1,6 @@
 package com.fastcampuspay.money.adapter.axon.saga;
 
-import com.fastcampuspay.common.event.CheckRegisteredBankAccountCommand;
-import com.fastcampuspay.common.event.CheckedRegisteredBankAccountEvent;
-import com.fastcampuspay.common.event.RequestFirmbankingFinishedEvent;
-import com.fastcampuspay.common.event.RollbackFirmbankingFinishedEvent;
+import com.fastcampuspay.common.event.*;
 import com.fastcampuspay.money.adapter.axon.event.RechargingRequestCreatedEvent;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.fastcampuspay.money.application.port.out.IncreaseMoneyPort;
@@ -19,6 +16,8 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
+
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Saga
 @NoArgsConstructor
@@ -156,5 +155,6 @@ public class MoneyRechargeSaga {
     @SagaEventHandler(associationProperty = "rollbackFirmbankingId")
     public void handle(RollbackFirmbankingFinishedEvent event) {
         System.out.println("RollbackFirmbankingFinishedEvent saga: " + event.toString());
+
     }
 }
