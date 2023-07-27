@@ -1,11 +1,11 @@
-package com.fastcampuspay.money.query;
+package com.fastcampuspay.money.query.adapter.axon;
 
 import com.fastcampuspay.common.event.RequestFirmbankingFinishedEvent;
 import org.axonframework.eventhandling.EventHandler;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class DummyEventHandler {
+@Component
+public class MoneyIncreaseEventHandler {
 
     @EventHandler
     public void handler(RequestFirmbankingFinishedEvent event){
