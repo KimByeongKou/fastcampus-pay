@@ -57,18 +57,14 @@ public class RequestMoneyChangingController {
         return resultDetail;
     }
 
-    @PostMapping(path = "/money/decrease")
+    @PostMapping(path = "/money/decrease-eda")
     MoneyChangingResultDetail decreaseMoneyChangingRequest(@RequestBody DecreaseMoneyChangingRequest request) {
-//        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
-//                .membershipId(request.getMembershipId())
-//                .bankName(request.getBankName())
-//                .bankAccountNumber(request.getBankAccountNumber())
-//                .isValid(request.isValid())
-//                .build();
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand.builder()
+                .targetMembershipId(request.getTargetMembershipId())
+                .amount(request.getAmount() * -1)
+                .build();
 
-        // registeredBankAccountUseCase.registerBankAccount(command)
-        // -> MoneyChangingResultDetail
-        // return decreaseMoneyRequestUseCase.decreaseMoneyChangingRequest(command);
+        increaseMoneyRequestUseCase.increaseMoneyRequestByEvent(command);
         return null;
     }
 
