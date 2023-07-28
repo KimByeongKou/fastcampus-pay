@@ -9,8 +9,10 @@ import com.fastcampuspay.money.adapter.axon.command.MemberMoneyCreatedCommand;
 import com.fastcampuspay.money.adapter.axon.command.RechargingMoneyRequestCreateCommand;
 import com.fastcampuspay.money.adapter.axon.event.RechargingRequestCreatedEvent;
 import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyJpaEntity;
+import com.fastcampuspay.money.adapter.out.persistence.MemberMoneyMapper;
 import com.fastcampuspay.money.adapter.out.persistence.MoneyChangingRequestMapper;
 import com.fastcampuspay.money.application.port.in.*;
+import com.fastcampuspay.money.application.port.out.GetMemberMoneyListPort;
 import com.fastcampuspay.money.application.port.out.GetMembershipPort;
 import com.fastcampuspay.money.application.port.out.IncreaseMoneyPort;
 import com.fastcampuspay.money.application.port.out.SendRechargingMoneyTaskPort;
@@ -34,9 +36,12 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
     private final GetMembershipPort membershipPort;
     private final IncreaseMoneyPort increaseMoneyPort;
     private final MoneyChangingRequestMapper mapper;
+    private final MemberMoneyMapper memberMoneyMapper;
     private final CommandGateway commandGateway;
     private final CreateMemberMoneyPort createMemberMoneyPort;
     private final GetMemberMoneyPort getMemberMoneyPort;
+
+    private final GetMemberMoneyListPort getMemberMoneyListPort;
 
     @Override
     public MoneyChangingRequest increaseMoneyRequest(IncreaseMoneyRequestCommand command) {
@@ -195,30 +200,18 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
                     }
                 }
         );
+    }
 
-//        MemberMoneyJpaEntity memberMoneyJpaEntity = getMemberMoneyPort.getMemberMoney(
-//                new MemberMoney.MembershipId(command.getTargetMembershipId())
-//        );
-//
-//        String aggregateIdentifier = memberMoneyJpaEntity.getAggregateIdentifier();
-//        // command
-//        commandGateway.send(IncreaseMemberMoneyCommand.builder()
-//                        .aggregateIdentifier(aggregateIdentifier)
-//                        .membershipId(command.getTargetMembershipId())
-//                        .amount(command.getAmount()).build())
-//        .whenComplete(
-//                (result, throwable) -> {
-//                    if (throwable != null) {
-//                        throwable.printStackTrace();
-//                        throw new RuntimeException(throwable);
-//                    } else {
-//                        // Increase money -> money incr
-//                        System.out.println("increaseMoney result = " + result);
-//                        increaseMoneyPort.increaseMoney(
-//                                new MemberMoney.MembershipId(command.getTargetMembershipId())
-//                                , command.getAmount());
-//                    }
-//                }
-//        );
+    @Override
+    public List<MemberMoney> findMemberMoneyListByMembershipIds(FindMemberMoneyListByMembershipIdsCommand command) {
+        // 여러개의 membership Ids 를 기준으로, memberMoney 정보를 가져와야 해요.
+        List<MemberMoneyJpaEntity> memberMoneyJpaEntityList = getMemberMoneyListPort.getMemberMoneyPort(command.getMembershipIds());
+        List<MemberMoney> memberMoneyList = new ArrayList<>();
+
+        for(MemberMoneyJpaEntity memberMoneyJpaEntity : memberMoneyJpaEntityList) {
+            memberMoneyList.add(memberMoneyMapper.mapToDomainEntity(memberMoneyJpaEntity));
+        }
+
+        return memberMoneyList;
     }
 }

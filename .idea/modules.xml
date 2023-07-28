@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/fastcampus-pay.common.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/logging-consumer/fastcampus-pay.logging-consumer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/logging-consumer/fastcampus-pay.logging-consumer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/membership-service/fastcampus-pay.membership-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/money-aggregation-service/fastcampus-pay.money-aggregation-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/money-aggregation-service/fastcampus-pay.money-aggregation-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-service/fastcampus-pay.payment-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-service/fastcampus-pay.payment-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" />

@@ -11,4 +11,6 @@ public interface SpringDataMemberMoneyRepository extends JpaRepository<MemberMon
     @Query("SELECT e  FROM MemberMoneyJpaEntity e WHERE e.membershipId = :membershipId")
     List<MemberMoneyJpaEntity> findByMembershipId(@Param("membershipId") Long membershipId);
 
+    @Query("SELECT e  FROM MemberMoneyJpaEntity e WHERE e.membershipId in :membershipIds")
+    List<MemberMoneyJpaEntity> fineMemberMoneyListByMembershipIds(@Param("membershipIds") List<Long> membershipIds);
 }

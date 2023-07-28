@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/logging-consumer" />
             <option value="$PROJECT_DIR$/membership-service" />
+            <option value="$PROJECT_DIR$/money-aggregation-service" />
             <option value="$PROJECT_DIR$/money-service" />
             <option value="$PROJECT_DIR$/payment-service" />
             <option value="$PROJECT_DIR$/remittance-service" />
