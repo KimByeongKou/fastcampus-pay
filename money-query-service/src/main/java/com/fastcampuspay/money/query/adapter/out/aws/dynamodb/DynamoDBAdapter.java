@@ -37,7 +37,7 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
         return null;
     }
 
-    private void putItem(String id, String name, int age) {
+    private void putItem(String id, String name) {
         try {
             HashMap<String, AttributeValue> attrMap = new HashMap<>();
             attrMap.put("PK", AttributeValue.builder().s(id).build());
