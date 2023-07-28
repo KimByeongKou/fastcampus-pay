@@ -44,7 +44,7 @@ public class GetMoneySumByAggregationService implements GetMoneySumByAddressUseC
 
         return sum;
     }
-    // List를 n개씩 묶어서 List<List<T>>로 만드는 메서드
+    // List 를 n개씩 묶어서 List<List<T>>로 만드는 메서드
     private static <T> List<List<T>> partitionList(List<T> list, int partitionSize) {
         return IntStream.range(0, list.size())
                 .boxed()
