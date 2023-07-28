@@ -11,4 +11,5 @@ include 'payment-service'
 include 'utility'
 include 'money-aggregation-service'
 include 'money-query-service'
+include 'settlement-service'
 

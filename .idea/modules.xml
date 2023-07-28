@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/money-service/fastcampus-pay.money-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-service/fastcampus-pay.payment-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-service/fastcampus-pay.payment-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/remittance-service/fastcampus-pay.remittance-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/settlement-service/fastcampus-pay.settlement-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/settlement-service/fastcampus-pay.settlement-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/task-consumer/fastcampus-pay.task-consumer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/task-consumer/fastcampus-pay.task-consumer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/utility/fastcampus-pay.utility.main.iml" filepath="$PROJECT_DIR$/.idea/modules/utility/fastcampus-pay.utility.main.iml" />
     </modules>
