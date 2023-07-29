@@ -216,6 +216,7 @@ services:
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
       - SERVICE_BANKING_URL=http://banking-service:8080
+
   money-aggregation-service:
     image: fastcampus-pay-money-aggregation-service:1.0.0
     networks:

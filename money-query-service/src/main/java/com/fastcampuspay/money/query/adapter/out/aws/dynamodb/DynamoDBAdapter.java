@@ -1,9 +1,8 @@
 package com.fastcampuspay.money.query.adapter.out.aws.dynamodb;
 
 import com.fastcampuspay.money.query.adapter.axon.QueryMoneySumByAddress;
-import com.fastcampuspay.money.query.application.port.out.GetMoneySumByRegionPort;
+import com.fastcampuspay.money.query.application.port.out.GetMoneySumByAddressPort;
 import com.fastcampuspay.money.query.application.port.out.InsertMoneyIncreaseEventByAddress;
-import com.fastcampuspay.money.query.application.port.out.MoneySum;
 import com.fastcampuspay.money.query.domain.MoneySumByRegion;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
@@ -13,18 +12,20 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
 
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncreaseEventByAddress {
+public class DynamoDBAdapter implements GetMoneySumByAddressPort, InsertMoneyIncreaseEventByAddress {
     private static final String TABLE_NAME = "MoneyIncreaseEventByRegion";
-    private static final String ACCESS_KEY = "";
-    private static final String SECRET_KEY = "";
+    private static final String ACCESS_KEY = "AKIAVMRBIF2ZRQJPXBQN";
+    private static final String SECRET_KEY = "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";
     private final DynamoDbClient dynamoDbClient;
+    private final MoneySumByAddressMapper moneySumByAddressMapper;
 
     public DynamoDBAdapter() {
+        this.moneySumByAddressMapper = new MoneySumByAddressMapper();
         AwsBasicCredentials credentials = AwsBasicCredentials.create(ACCESS_KEY, SECRET_KEY);
         this.dynamoDbClient = DynamoDbClient.builder()
                 .region(Region.AP_NORTHEAST_2)
@@ -33,16 +34,57 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
     }
 
     @Override
-    public MoneySum getMoneySumByRegionPort(String regionName, Date startDate) {
-        return null;
+    public int getMoneySumByAddress(String address) {
+        String pk = address;
+        String sk = "-1";
+        return getItem(pk, sk).getBalance();
     }
 
-    private void putItem(String id, String name) {
+    @Override
+    public void insertMoneyIncreaseEventByAddress(String addressName, int moneyIncrease) {
+        // 3개의 일을 해야될 것이에요.
+
+        // 1. raw event insert (Insert, put)
+        // PK: 강남구#230728 SK: 5,000, balance, 5,000
+        String pk = addressName + "#" + "230728";
+        String sk = String.valueOf(moneyIncrease);
+        putItem(pk, sk, moneyIncrease);
+
+        // 2. 지역 정보 잔액 증가시켜야 해요. (Query, Update)
+        // 2-1. 지역별/일별 정보
+        //  - PK: 강남구#230728#summary SK: -1 balance: + 5,000
+        String summaryPk = pk + "#summary";
+        String summarySk = "-1";
+        MoneySumByAddress moneySumByAddress = getItem(summaryPk, summarySk);
+        if (moneySumByAddress == null) {
+            putItem(summaryPk, summarySk, moneyIncrease);
+        } else{
+            int balance = moneySumByAddress.getBalance();
+            balance += moneyIncrease;
+            updateItem(summaryPk, summarySk, balance);
+        }
+
+        // 2-2. 지역별 정보
+        // - PK: 강남구 SK: -1 balance: + 5,000
+        String summaryPk2 = addressName;
+        String summarySk2 = "-1";
+        MoneySumByAddress moneySumByAddress2 = getItem(summaryPk2, summarySk2);
+        if (moneySumByAddress2 == null) {
+            putItem(summaryPk2, summarySk2, moneyIncrease);
+        } else{
+            int balance2 = moneySumByAddress2.getBalance();
+            balance2 += moneyIncrease;
+            updateItem(summaryPk2, summarySk2, balance2);
+        }
+    }
+
+    private void putItem(String pk, String sk, int balance) {
         try {
+            String balanceStr = String.valueOf(balance);
             HashMap<String, AttributeValue> attrMap = new HashMap<>();
-            attrMap.put("PK", AttributeValue.builder().s(id).build());
-            attrMap.put("SK", AttributeValue.builder().s(id).build());
-            attrMap.put("name", AttributeValue.builder().s(name).build());
+            attrMap.put("PK", AttributeValue.builder().s(pk).build());
+            attrMap.put("SK", AttributeValue.builder().s(sk).build());
+            attrMap.put("balance", AttributeValue.builder().n(balanceStr).build());
 
             PutItemRequest request = PutItemRequest.builder()
                     .tableName(TABLE_NAME)
@@ -55,11 +97,11 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
         }
     }
 
-    private void getItem(String id) {
+    private MoneySumByAddress getItem(String pk, String sk) {
         try {
             HashMap<String, AttributeValue> attrMap = new HashMap<>();
-            attrMap.put("PK", AttributeValue.builder().s(id).build());
-            attrMap.put("SK", AttributeValue.builder().s(id).build());
+            attrMap.put("PK", AttributeValue.builder().s(pk).build());
+            attrMap.put("SK", AttributeValue.builder().s(sk).build());
 
             GetItemRequest request = GetItemRequest.builder()
                     .tableName(TABLE_NAME)
@@ -67,10 +109,16 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
                     .build();
 
             GetItemResponse response = dynamoDbClient.getItem(request);
-            response.item().forEach((key, value) -> System.out.println(key + ": " + value));
+            if (response.hasItem()){
+                return moneySumByAddressMapper.mapToMoneySumByAddress(response.item());
+            } else {
+                return null;
+            }
+
         } catch (DynamoDbException e) {
             System.err.println("Error getting an item from the table: " + e.getMessage());
         }
+        return null;
     }
 
     private void queryItem(String id) {
@@ -94,9 +142,43 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
         }
     }
 
-    @Override
-    public void insertMoneyIncreaseEventByAddress(String addressName, int moneyIncrease) {
+    private void updateItem(String pk, String sk, int balance) {
+        try {
+            HashMap<String, AttributeValue> attrMap = new HashMap<>();
+            attrMap.put("PK", AttributeValue.builder().s(pk).build());
+            attrMap.put("SK", AttributeValue.builder().s(sk).build());
 
+            String balanceStr = String.valueOf(balance);
+            // Create an UpdateItemRequest
+            UpdateItemRequest updateItemRequest = UpdateItemRequest.builder()
+                    .tableName(TABLE_NAME)
+                    .key(attrMap)
+                    .attributeUpdates(
+                            new HashMap<String, AttributeValueUpdate>() {{
+                                put("balance", AttributeValueUpdate.builder()
+                                        .value(AttributeValue.builder().n(balanceStr).build())
+                                        .action(AttributeAction.PUT)
+                                        .build());
+                            }}
+                    ).build();
+
+
+            UpdateItemResponse response = dynamoDbClient.updateItem(updateItemRequest);
+
+            // 결과 출력.
+            Map<String, AttributeValue> attributes = response.attributes();
+            if (attributes != null) {
+                for (Map.Entry<String, AttributeValue> entry : attributes.entrySet()) {
+                    String attributeName = entry.getKey();
+                    AttributeValue attributeValue = entry.getValue();
+                    System.out.println(attributeName + ": " + attributeValue);
+                }
+            } else {
+                System.out.println("Item was updated, but no attributes were returned.");
+            }
+        } catch (DynamoDbException e) {
+            System.err.println("Error getting an item from the table: " + e.getMessage());
+        }
     }
 
     @QueryHandler
@@ -104,7 +186,7 @@ public class DynamoDBAdapter implements GetMoneySumByRegionPort, InsertMoneyIncr
         return MoneySumByRegion.generateMoneySumByRegion(
                 new MoneySumByRegion.MoneySumByRegionId(UUID.randomUUID().toString()),
                 new MoneySumByRegion.RegionName(query.getAddress()),
-                new MoneySumByRegion.MoneySum(1000)
+                new MoneySumByRegion.MoneySum(getMoneySumByAddress(query.getAddress()))
         );
     }
 }

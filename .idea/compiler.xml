@@ -10,10 +10,10 @@
         </processorPath>
         <module name="fastcampus-pay.logging-consumer.main" />
         <module name="com.fastcampuspay.money.aggregation.fastcampus-pay.money-aggregation-service.main" />
-        <module name="fastcampus-pay.money-query-service.main" />
         <module name="fastcampus-pay.membership-service.main" />
         <module name="fastcampus-pay.common.main" />
         <module name="fastcampus-pay.task-consumer.main" />
+        <module name="com.fastcampuspay.money-query.fastcampus-pay.money-query-service.main" />
         <module name="com.fastcampuspay.money.fastcampus-pay.money-service.main" />
         <module name="fastcampus-pay.payment-service.main" />
         <module name="fastcampus-pay.utility.main" />

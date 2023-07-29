@@ -44,7 +44,7 @@ public class DummyDataGenerator {
         PreparedStatement pstmt = conn.prepareStatement(insertQuery);
 
         // 더미 데이터 개수 (여기서는 100개로 가정)
-        int numberOfDummyData = 1000;
+        int numberOfDummyData = 100;
 
         for (int i = 1; i <= numberOfDummyData; i++) {
             pstmt.setLong(1, i); // membership_id
