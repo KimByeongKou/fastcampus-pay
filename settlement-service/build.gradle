@@ -21,6 +21,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
 
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter'
+
     implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
     implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
 }
