@@ -26,7 +26,7 @@ public class DummyDataGenerator {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 더미 데이터 생성
-            //generateDummyMembershipData(conn);
+            generateDummyMembershipData(conn);
 
             generateDummyPaymentData(conn);
             // 연결 종료
@@ -46,7 +46,7 @@ public class DummyDataGenerator {
         PreparedStatement pstmt = conn.prepareStatement(insertQuery);
 
         // 더미 데이터 개수 (여기서는 100개로 가정)
-        int numberOfDummyData = 100;
+        int numberOfDummyData = 10;
 
         for (int i = 1; i <= numberOfDummyData; i++) {
             pstmt.setLong(1, i); // membership_id
@@ -55,9 +55,9 @@ public class DummyDataGenerator {
             pstmt.setBoolean(4, random.nextBoolean()); // is_corp (true 또는 false 랜덤하게 선택)
             pstmt.setBoolean(5, random.nextBoolean()); // is_valid (true 또는 false 랜덤하게 선택)
             pstmt.setString(6, "User " + i); // name
-
-            // 쿼리 실행
             pstmt.executeUpdate();
+
+
         }
 
         // PreparedStatement 닫기
@@ -72,15 +72,14 @@ public class DummyDataGenerator {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
 
             int numberOfTestData = 10;
-
             for (int i = 0; i < numberOfTestData; i++) {
                 // 랜덤 값 생성
                 long paymentId = (random.nextInt(900) + 100L); // 100 ~ 999
                 String membershipId = "" + (random.nextInt(900) + 100); // 100 ~ 999
                 int price = (random.nextInt(9) + 1) * 1000; // 1000 ~ 9000
-                String franchiseId =  "" + (random.nextInt(900) + 100L); // 100 ~ 999
+                String franchiseId =  "" + (random.nextInt(10) + 1L);
                 String franchiseFeeRate = String.format("%.2f", random.nextDouble() * 5.0);
-                int paymentStatus = 1;
+                int paymentStatus = 0;
                 Date approvedAt = new Date(System.currentTimeMillis() - random.nextInt(10000000));
 
                 preparedStatement.setLong(1, paymentId);
@@ -90,9 +89,8 @@ public class DummyDataGenerator {
                 preparedStatement.setString(5, franchiseFeeRate);
                 preparedStatement.setInt(6, paymentStatus);
                 preparedStatement.setDate(7, new java.sql.Date(approvedAt.getTime()));
-
-                // 쿼리 실행
                 preparedStatement.executeUpdate();
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.fastcampuspay.payment.application.service;
 
+import com.fastcampuspay.payment.application.port.in.FinishSettlementCommand;
 import com.fastcampuspay.payment.application.port.in.RequestPaymentCommand;
 import com.fastcampuspay.payment.application.port.in.RequestPaymentUseCase;
 import com.fastcampuspay.payment.application.port.out.CreatePaymentPort;
@@ -10,6 +11,7 @@ import com.fastcampuspay.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
@@ -39,5 +41,15 @@ public class PaymentService implements RequestPaymentUseCase {
                 command.getRequestPrice(),
                 command.getFranchiseId(),
                 command.getFranchiseFeeRate());
+    }
+
+    @Override
+    public List<Payment> getNormalStatusPayments() {
+        return createPaymentPort.getNormalStatusPayments();
+    }
+
+    @Override
+    public void finishPayment(FinishSettlementCommand command) {
+        createPaymentPort.changePaymentRequestStatus(command.getPaymentId(), 2);
     }
 }

@@ -26,11 +26,11 @@ public class DummyMoneyDataSimulator {
 
         while (true) {
             int amount = random.nextInt(20001) - 10000; // Random number between -100000 and 100000
-            int targetMembershipId = random.nextInt(100) + 1; // Random number between 1 and 100000
+            int targetMembershipId = random.nextInt(10) + 1; // Random number between 1 and 100000
 
             registerAccountSimulator(REGISTER_ACCOUNT_API_ENDPOINT, targetMembershipId);
             createMemberMoneySimulator(CREATE_MONEY_API_ENDPOINT, targetMembershipId);
-            Thread.sleep(1000);
+            Thread.sleep(100);
             readyMemberList.add(targetMembershipId);
 
             increaseMemberMoneySimulator(INCREASE_API_ENDPOINT, amount, targetMembershipId);
@@ -40,7 +40,7 @@ public class DummyMoneyDataSimulator {
             increaseMemberMoneySimulator(DECREASE_API_ENDPOINT, amount, decreaseTargetMembershipId);
 
             try {
-                Thread.sleep(1000); // Wait for 1 second before making the next API call
+                Thread.sleep(100); // Wait for 1 second before making the next API call
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

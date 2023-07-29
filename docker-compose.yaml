@@ -294,7 +294,7 @@ services:
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
       - SERVICE_BANKING_URL=http://banking-service:8080
       - SERVICE_MONEY_URL=http://money-service:8080
-
+      - SERVICE_PAYMENT_URL=http://payment-service:8080
 volumes:
   axonserver-data:
     driver: local
