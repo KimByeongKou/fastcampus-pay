@@ -22,6 +22,10 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
     implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 }
 
 docker {
