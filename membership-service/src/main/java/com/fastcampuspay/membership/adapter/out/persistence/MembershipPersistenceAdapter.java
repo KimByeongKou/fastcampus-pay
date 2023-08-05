@@ -1,6 +1,7 @@
 package com.fastcampuspay.membership.adapter.out.persistence;
 
 import com.fastcampuspay.common.PersistenceAdapter;
+import com.fastcampuspay.membership.adapter.out.vault.VaultAdapter;
 import com.fastcampuspay.membership.application.port.out.FindMembershipPort;
 import com.fastcampuspay.membership.application.port.out.ModifyMembershipPort;
 import com.fastcampuspay.membership.application.port.out.RegisterMembershipPort;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MembershipPersistenceAdapter implements RegisterMembershipPort, FindMembershipPort, ModifyMembershipPort {
 
     private final SpringDataMembershipRepository membershipRepository;
+    private final VaultAdapter vaultAdapter;
     @Override
     public MembershipJpaEntity createMembership(Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp, Membership.MembershipRefreshToken membershipRefreshToken){
         return membershipRepository.save(

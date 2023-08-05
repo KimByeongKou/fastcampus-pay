@@ -37,6 +37,7 @@ services:
       - "8081:8080"
     depends_on:
       - mysql
+      - vault
     environment:
       - AXON_AXONSERVER_SERVERS=axon-server:8124
       - AXON_SERIALIZER_EVENTS=jackson
@@ -49,6 +50,10 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=fastcampus.logging.out.stdout
+      - SPRING_CLOUD_VAULT_TOKEN=hvs.ZgdFgOUnoxLDXlr8buvNp8w1
+      - SPRING_CLOUD_VAULT_SCHEME=http
+      - SPRING_CLOUD_VAULT_HOST=vault
+      - SPRING_CLOUD_VAULT_PORT=8200
 
   banking-service:
     image: fastcampus-pay-banking-service:1.0.0
@@ -295,6 +300,18 @@ services:
       - SERVICE_BANKING_URL=http://banking-service:8080
       - SERVICE_MONEY_URL=http://money-service:8080
       - SERVICE_PAYMENT_URL=http://payment-service:8080
+
+  vault:
+    image: vault:1.13.1
+    networks:
+      - fastcampuspay_network
+    container_name: vault
+    ports:
+      - "8200:8200"
+    restart: always
+    cap_add:
+      - IPC_LOCK
+
 volumes:
   axonserver-data:
     driver: local
