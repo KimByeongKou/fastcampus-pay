@@ -41,6 +41,4 @@ public class AuthMembershipController {
 
         return authMembershipUseCase.validateJwtToken(command);
     }
-
-    //////
 }

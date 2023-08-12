@@ -52,4 +52,18 @@ public class MembershipJpaEntity {
                 ", refreshToken=" + refreshToken +
                 '}';
     }
+
+    public MembershipJpaEntity(Long membershipId, String name, String address, String email, boolean isValid, boolean isCorp, String refreshToken) {
+        this.membershipId = membershipId;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.isValid = isValid;
+        this.isCorp = isCorp;
+        this.refreshToken = refreshToken;
+    }
+
+    public MembershipJpaEntity clone() {
+        return new MembershipJpaEntity(this.membershipId, this.name, this.address, this.email, this.isValid, this.isCorp, this.refreshToken);
+    }
 }
