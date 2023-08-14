@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Builder
 @Data
@@ -26,7 +27,6 @@ public class RequestRemittanceCommand extends SelfValidating<RequestRemittanceCo
 
     // 송금요청 금액
     @NotNull
-    @NotBlank
     private int amount;
 
     public RequestRemittanceCommand(String fromMembershipId, String toMembershipId, String toBankName, String toBankAccountNumber, int remittanceType, int amount) {
@@ -38,5 +38,18 @@ public class RequestRemittanceCommand extends SelfValidating<RequestRemittanceCo
         this.amount = amount;
 
         this.validateSelf();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestRemittanceCommand command = (RequestRemittanceCommand) o;
+        return remittanceType == command.remittanceType && amount == command.amount && fromMembershipId.equals(command.fromMembershipId) && toMembershipId.equals(command.toMembershipId) && toBankName.equals(command.toBankName) && toBankAccountNumber.equals(command.toBankAccountNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fromMembershipId, toMembershipId, toBankName, toBankAccountNumber, remittanceType, amount);
     }
 }

@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Value;
 
+import java.util.Objects;
+
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RemittanceRequest { // 송금 요청에 대한 상태 클래스.
     @Getter private final String remittanceRequestId;
@@ -89,5 +92,18 @@ public class RemittanceRequest { // 송금 요청에 대한 상태 클래스.
             remittanceType.remittanceType,
             amount.amount, remittanceRequestStatus.remittanceStatus
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RemittanceRequest that = (RemittanceRequest) o;
+        return remittanceType == that.remittanceType && amount == that.amount && remittanceRequestId.equals(that.remittanceRequestId) && remittanceFromMembershipId.equals(that.remittanceFromMembershipId) && toBankName.equals(that.toBankName) && toBankAccountNumber.equals(that.toBankAccountNumber) && remittanceStatus.equals(that.remittanceStatus);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(remittanceRequestId, remittanceFromMembershipId, toBankName, toBankAccountNumber, remittanceType, amount, remittanceStatus);
     }
 }

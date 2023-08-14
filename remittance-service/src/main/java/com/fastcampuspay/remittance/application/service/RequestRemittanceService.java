@@ -20,7 +20,6 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class RequestRemittanceService implements RequestRemittanceUseCase {
-
     private final RequestRemittancePort requestRemittancePort;
     private final RemittanceRequestMapper mapper;
     private final MembershipPort membershipPort;
@@ -84,5 +83,22 @@ public class RequestRemittanceService implements RequestRemittanceUseCase {
             return mapper.mapToDomainEntity(entity);
         }
         return null;
+    }
+
+    public RemittanceRequest testMethod(RequestRemittanceCommand command) {
+        RemittanceRequestJpaEntity entity = requestRemittancePort.createRemittanceRequestHistory(command);
+        if (entity == null) {
+            return RemittanceRequest.generateRemittanceRequest(
+                    new RemittanceRequest.RemittanceRequestId("test_id"),
+                    new RemittanceRequest.RemittanceFromMembershipId("test_from_membership_id"),
+                    new RemittanceRequest.ToBankName("test_to_membership_id"),
+                    new RemittanceRequest.ToBankAccountNumber("123-456-789"),
+                    new RemittanceRequest.RemittanceType(0),
+                    new RemittanceRequest.Amount(10000),
+                    new RemittanceRequest.RemittanceStatus("success")
+            );
+        } else {
+            return mapper.mapToDomainEntity(entity);
+        }
     }
 }
