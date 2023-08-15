@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "membership")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class MembershipJpaEntity {
 

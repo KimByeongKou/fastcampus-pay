@@ -7,22 +7,27 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.ConcurrentModificationException;
 
 @Component
-@RequiredArgsConstructor
 public class LoggingHandler {
     private final KafkaConsumer<String, String> loggingConsumer;
+
+    public LoggingHandler(KafkaConsumer<String, String> loggingConsumer) {
+        this.loggingConsumer = loggingConsumer;
+        this.consume();
+    }
+
     public void consume() {
         Thread consumerThread = new Thread(() -> {
-            try {
-                while (true) {
-                    ConsumerRecords<String, String> records = loggingConsumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<String, String> record : records) {
-                        handle(record);
-                    }
+            while (true) {
+                ConsumerRecords<String, String> records = loggingConsumer.poll(Duration.ofMillis(100));
+                if (records == null) {
+                    continue;
                 }
-            } finally {
-                loggingConsumer.close();
+                for (ConsumerRecord<String, String> record : records) {
+                    handle(record);
+                }
             }
         });
         consumerThread.start();
@@ -34,4 +39,5 @@ public class LoggingHandler {
         }
         System.out.println("Received message: " + record.value());
     }
+
 }

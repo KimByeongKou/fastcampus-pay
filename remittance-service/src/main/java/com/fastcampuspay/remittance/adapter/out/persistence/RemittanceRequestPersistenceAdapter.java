@@ -35,7 +35,12 @@ public class RemittanceRequestPersistenceAdapter implements RequestRemittancePor
 
     @Override
     public List<RemittanceRequestJpaEntity> findRemittanceHistory(FindRemittanceCommand command) {
-        // using JPA
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 }
