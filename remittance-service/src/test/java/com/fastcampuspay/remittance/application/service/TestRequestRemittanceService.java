@@ -8,31 +8,24 @@ import com.fastcampuspay.remittance.application.port.out.banking.BankingPort;
 import com.fastcampuspay.remittance.application.port.out.membership.MembershipPort;
 import com.fastcampuspay.remittance.application.port.out.money.MoneyPort;
 import com.fastcampuspay.remittance.domain.RemittanceRequest;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Field;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 //@RunWith(SpringRunner.class)
 //@AutoConfigureMockMvc
 @SpringBootTest
 public class TestRequestRemittanceService {
+
     @InjectMocks
     private RequestRemittanceService requestRemittanceService;
     @Mock
@@ -51,6 +44,12 @@ public class TestRequestRemittanceService {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        /**
+         * @NOTE
+         * private final 필드의 경우, setter 를 통해 주입할 수 없기 때문에
+         * Reflection or Constructor 를 통해 주입해야 한다.
+         */
         requestRemittanceService = new RequestRemittanceService(requestRemittancePort, mapper, membershipPort, moneyPort, bankingPort);
     }
 

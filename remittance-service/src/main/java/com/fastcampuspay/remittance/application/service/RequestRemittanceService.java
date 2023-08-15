@@ -20,11 +20,11 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class RequestRemittanceService implements RequestRemittanceUseCase {
-    private final RequestRemittancePort requestRemittancePort;
-    private final RemittanceRequestMapper mapper;
-    private final MembershipPort membershipPort;
-    private final MoneyPort moneyPort;
-    private final BankingPort bankingPort;
+    private  final RequestRemittancePort requestRemittancePort;
+    private  final RemittanceRequestMapper mapper;
+    private  final MembershipPort membershipPort;
+    private final  MoneyPort moneyPort;
+    private  final BankingPort bankingPort;
 
     @Override
     public RemittanceRequest requestRemittance(RequestRemittanceCommand command) {

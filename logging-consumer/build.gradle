@@ -17,7 +17,9 @@ dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation project(path: ':common')
 
+    testImplementation project(path: ':common')
     testImplementation 'junit:junit:4.13.1'
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
 //    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
