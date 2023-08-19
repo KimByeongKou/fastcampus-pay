@@ -1,13 +1,11 @@
 package com.fastcampus.loggingconsumer;
 
-import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.ConcurrentModificationException;
 
 @Component
 public class LoggingHandler {
@@ -37,6 +35,7 @@ public class LoggingHandler {
         if (!record.value().startsWith("[logging]")){
             return;
         }
+
         System.out.println("Received message: " + record.value());
     }
 

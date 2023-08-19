@@ -22,8 +22,6 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
-//    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
-//    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
 }
 
 docker {

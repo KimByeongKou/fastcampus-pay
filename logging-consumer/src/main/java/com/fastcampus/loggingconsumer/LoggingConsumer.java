@@ -11,7 +11,8 @@ import java.util.Properties;
 @Component
 public class LoggingConsumer {
     @Bean
-    public KafkaConsumer<String, String> initConsumer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers, @Value("${logging.topic}")String topic){
+    public KafkaConsumer<String, String> initConsumer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers
+            , @Value("${logging.topic}")String topic){
         Properties props = new Properties();
         props.put("bootstrap.servers", bootstrapServers);
         props.put("group.id", "my-group");

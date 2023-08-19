@@ -6,6 +6,8 @@ import com.fastcampuspay.remittance.application.port.in.RequestRemittanceCommand
 import com.fastcampuspay.remittance.application.port.out.RequestRemittancePort;
 import com.fastcampuspay.remittance.application.port.out.banking.BankingPort;
 import com.fastcampuspay.remittance.application.port.out.membership.MembershipPort;
+import com.fastcampuspay.remittance.application.port.out.membership.MembershipStatus;
+import com.fastcampuspay.remittance.application.port.out.money.MoneyInfo;
 import com.fastcampuspay.remittance.application.port.out.money.MoneyPort;
 import com.fastcampuspay.remittance.domain.RemittanceRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +27,6 @@ import static org.mockito.Mockito.*;
 //@AutoConfigureMockMvc
 @SpringBootTest
 public class TestRequestRemittanceService {
-
     @InjectMocks
     private RequestRemittanceService requestRemittanceService;
     @Mock
@@ -38,8 +39,6 @@ public class TestRequestRemittanceService {
     private MembershipPort membershipPort;
     @Mock
     private MoneyPort moneyPort;
-
-
 
     @BeforeEach
     public void setUp() {
@@ -107,10 +106,70 @@ public class TestRequestRemittanceService {
         );
 
         RemittanceRequest got = requestRemittanceService.testMethod(testCommand);
-
         verify(requestRemittancePort, times(1)).createRemittanceRequestHistory(testCommand);
         verify(mapper, times(1)).mapToDomainEntity(tt);
         assertEquals(want, got);
     }
 
+    @ParameterizedTest
+    @MethodSource("provideRequestRemittanceCommand")
+    public void testRequestRemittanceWhenMembershipInvalid(RequestRemittanceCommand testCommand){
+        // Membership 상태가 invalid 인 경우 Test
+        // 1. Set want
+        // want = null
+
+        // 2. Set Mocking
+        when(requestRemittancePort.createRemittanceRequestHistory(testCommand))
+                .thenReturn(null);
+        when(membershipPort.getMembershipStatus(testCommand.getFromMembershipId()))
+                .thenReturn(new MembershipStatus(testCommand.getFromMembershipId(), false));
+
+        // 3. Setting Dummy Data if needed
+
+
+        // 4. Test
+        RemittanceRequest got = requestRemittanceService.requestRemittance(testCommand);
+
+        // 5. Verifying
+        verify(requestRemittancePort, times(1)).createRemittanceRequestHistory(testCommand);
+        verify(membershipPort, times(1)).getMembershipStatus(testCommand.getFromMembershipId());
+
+        // 6. assert
+        assertEquals(null, got);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRequestRemittanceCommand")
+    public void testRequestRemittanceWhenNotEnoughMoney(RequestRemittanceCommand testCommand){
+        // Membership 상태가 invalid 인 경우 Test
+        // 1. Set want
+        // want = null
+
+        // 2. Setting Dummy Data if needed
+        MoneyInfo dummyMoneyInfo = new MoneyInfo(testCommand.getFromMembershipId(), 1000) ;
+
+        // 3. Set Mocking
+        when(requestRemittancePort.createRemittanceRequestHistory(testCommand))
+                .thenReturn(null);
+        when(membershipPort.getMembershipStatus(testCommand.getFromMembershipId()))
+                .thenReturn(new MembershipStatus(testCommand.getFromMembershipId(), true));
+        when(moneyPort.getMoneyInfo(testCommand.getFromMembershipId()))
+                .thenReturn(new MoneyInfo(testCommand.getFromMembershipId(), 1000));
+
+        int rechargeAmount = (int) Math.ceil((testCommand.getAmount() - dummyMoneyInfo.getBalance()) / 10000.0) * 10000;
+        when(moneyPort.requestMoneyRecharging(testCommand.getFromMembershipId(), rechargeAmount))
+                .thenReturn(false);
+
+        // 4. Test
+        RemittanceRequest got = requestRemittanceService.requestRemittance(testCommand);
+
+        // 5. Verifying
+        verify(requestRemittancePort, times(1)).createRemittanceRequestHistory(testCommand);
+        verify(membershipPort, times(1)).getMembershipStatus(testCommand.getFromMembershipId());
+        verify(moneyPort, times(1)).getMoneyInfo(testCommand.getFromMembershipId());
+        verify(moneyPort, times(1)).requestMoneyRecharging(testCommand.getFromMembershipId(), rechargeAmount);
+
+        // 6. assert
+        assertEquals(null, got);
+    }
 }
